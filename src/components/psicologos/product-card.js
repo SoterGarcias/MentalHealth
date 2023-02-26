@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import { Clock as ClockIcon } from '../../icons/clock';
 import { Download as DownloadIcon } from '../../icons/download';
+import { Star as StarIcon} from '../../icons/star'; 
 
 export const ProductCard = ({ product, ...rest }) => (
   <Card
@@ -12,18 +13,20 @@ export const ProductCard = ({ product, ...rest }) => (
     }}
     {...rest}
   >
-    <CardContent>
+    <CardContent sx={{cursor: 'pointer'}}>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
           pb: 3
+          
         }}
       >
         <Avatar
           alt="Product"
           src={product.media}
           variant="square"
+          
         />
       </Box>
       <Typography
@@ -57,35 +60,46 @@ export const ProductCard = ({ product, ...rest }) => (
             display: 'flex'
           }}
         >
-          <ClockIcon color="action" />
+          <StarIcon sx={{ color: '#FFD700' }} />
           <Typography
             color="textSecondary"
             display="inline"
-            sx={{ pl: 1 }}
+            sx={{ 
+              alignItems: 'center',
+              pl: 1 
+            }}
             variant="body2"
           >
-            Updated 2hr ago
+            {product.notaEstrelas}
+            {' '}
+            {'('}
+            {product.totalReviews}
+            {' '}
+            reviews
+            {')'}
           </Typography>
         </Grid>
-        <Grid
+        {/* <Grid
           item
           sx={{
             alignItems: 'center',
             display: 'flex'
           }}
         >
-          <DownloadIcon color="action" />
-          <Typography
+          {/* <StarIcon sx={{ color: '#FFD700' }} /> */}
+          {/* <Typography
             color="textSecondary"
             display="inline"
             sx={{ pl: 1 }}
             variant="body2"
           >
-            {product.totalDownloads}
+            {'('}
+            {product.totalReviews}
             {' '}
-            Downloads
+            reviews
+            {')'}
           </Typography>
-        </Grid>
+        </Grid> */} 
       </Grid>
     </Box>
   </Card>

@@ -23,9 +23,9 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/customers',
+    href: '/employees',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Customers'
+    title: 'Funcionários'
   },
   {
     href: '/psicologos',
@@ -87,11 +87,12 @@ export const DashboardSidebar = (props) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%'
+          height: '100%',
+          
         }}
       >
         <div>
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ p: 1.5 }}>
             <NextLink
               href="/"
               passHref
@@ -106,48 +107,11 @@ export const DashboardSidebar = (props) => {
               </a>
             </NextLink>
           </Box>
-          <Box sx={{ px: 2 }}>
-            <Box
-              sx={{
-                alignItems: 'center',
-                backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'space-between',
-                px: 3,
-                py: '11px',
-                borderRadius: 1
-              }}
-            >
-              <div>
-                <Typography
-                  color="inherit"
-                  variant="subtitle1"
-                >
-                  Acme Inc
-                </Typography>
-                <Typography
-                  color="neutral.400"
-                  variant="body2"
-                >
-                  Your tier
-                  {' '}
-                  : Premium
-                </Typography>
-              </div>
-              <SelectorIcon
-                sx={{
-                  color: 'neutral.500',
-                  width: 14,
-                  height: 14
-                }}
-              />
-            </Box>
-          </Box>
+          
         </div>
         <Divider
           sx={{
-            borderColor: '#2D3748',
+            borderColor: '#283342',
             my: 3
           }}
         />
@@ -161,24 +125,20 @@ export const DashboardSidebar = (props) => {
             />
           ))}
         </Box>
-        <Divider sx={{ borderColor: '#2D3748' }} />
+        <Divider sx={{ borderColor: '#283342' }} />
         <Box
           sx={{
             px: 2,
             py: 3
           }}
         >
+         
           <Typography
-            color="neutral.100"
-            variant="subtitle2"
-          >
-            Need more features?
-          </Typography>
-          <Typography
+            sx = {{textAlign: 'inherit'}}
             color="neutral.500"
             variant="body2"
           >
-            Check out our Pro solution template.
+            Powered by Subash © 2022.        V 1.1
           </Typography>
           <Box
             sx={{
@@ -191,12 +151,9 @@ export const DashboardSidebar = (props) => {
               }
             }}
           >
-            <img
-              alt="Go to pro"
-              src="/static/images/sidebar_pro.png"
-            />
+            
           </Box>
-          <NextLink
+          {/* <NextLink
             href="https://material-kit-pro-react.devias.io/"
             passHref
           >
@@ -210,7 +167,7 @@ export const DashboardSidebar = (props) => {
             >
               Pro Live Preview
             </Button>
-          </NextLink>
+          </NextLink> */}
         </Box>
       </Box>
     </>
