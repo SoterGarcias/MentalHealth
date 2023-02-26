@@ -35,7 +35,7 @@ const items = [
   {
     href: '/account',
     icon: (<UserIcon fontSize="small" />),
-    title: 'Account'
+    title: 'Conta'
   },
   {
     href: '/settings',
@@ -153,21 +153,7 @@ export const DashboardSidebar = (props) => {
           >
             
           </Box>
-          {/* <NextLink
-            href="https://material-kit-pro-react.devias.io/"
-            passHref
-          >
-            <Button
-              color="secondary"
-              component="a"
-              endIcon={(<OpenInNewIcon />)}
-              fullWidth
-              sx={{ mt: 2 }}
-              variant="contained"
-            >
-              Pro Live Preview
-            </Button>
-          </NextLink> */}
+          
         </Box>
       </Box>
     </>
@@ -180,7 +166,7 @@ export const DashboardSidebar = (props) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: 'neutral.900',
+            backgroundColor: '#283342',
             color: '#FFFFFF',
             width: 280
           }

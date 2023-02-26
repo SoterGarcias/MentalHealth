@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Account | Material Kit
+        Conta | Material Kit
       </title>
     </Head>
     <Box
@@ -23,7 +23,7 @@ const Page = () => (
           sx={{ mb: 3 }}
           variant="h4"
         >
-          Account
+          Conta
         </Typography>
         <Grid
           container
