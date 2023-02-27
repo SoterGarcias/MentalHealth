@@ -19,17 +19,17 @@ export const AccountPopover = (props) => {
     }
 
     // Check if auth has been skipped
-    // From sign-in page we may have set "skip-auth" to "true"
-    // If this has been skipped, then redirect to "sign-in" directly
+    // From login page we may have set "skip-auth" to "true"
+    // If this has been skipped, then redirect to "login" directly
     const authSkipped = globalThis.sessionStorage.getItem('skip-auth') === 'true';
 
     if (authSkipped) {
       // Cleanup the skip auth state
       globalThis.sessionStorage.removeItem('skip-auth');
 
-      // Redirect to sign-in page
+      // Redirect to login page
       Router
-        .push('/sign-in')
+        .push('/login')
         .catch(console.error);
       return;
     }
@@ -41,9 +41,9 @@ export const AccountPopover = (props) => {
       // Update Auth Context state
       authContext.signOut();
 
-      // Redirect to sign-in page
+      // Redirect to login page
       Router
-        .push('/sign-in')
+        .push('/login')
         .catch(console.error);
     } catch (err) {
       console.error(err);
@@ -94,7 +94,7 @@ export const AccountPopover = (props) => {
         }}
       >
         <MenuItem onClick={handleSignOut}>
-          Sign out
+          Log off
         </MenuItem>
       </MenuList>
     </Popover>

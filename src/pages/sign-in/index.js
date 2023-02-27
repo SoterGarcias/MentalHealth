@@ -33,7 +33,7 @@ const Page = () => {
       }
 
       try {
-        // When in development, this will be 'http://localhost:3000/sign-in/confirm'
+        // When in development, this will be 'http://localhost:3000/login/confirm'
         // Remember to configure it in your project settings
         const redirectUri = window.location.href + '/confirm';
 
@@ -322,7 +322,7 @@ const Page = () => {
               </Typography>
               <img
                 alt=""
-                src="/static/images/sign-in-illustration.svg"
+                src="/static/images/login-illustration.svg"
               />
             </Box>
           </Grid>
