@@ -27,27 +27,27 @@ const Register = () => {
     validationSchema: Yup.object({
       email: Yup
         .string()
-        .email('Must be a valid email')
+        .email('Deve ser um e-mail válido')
         .max(255)
         .required(
-          'Email is required'),
+          'O e-mail é obrigatório'),
       firstName: Yup
         .string()
         .max(255)
-        .required('First name is required'),
+        .required('O primeiro nome é necessário'),
       lastName: Yup
         .string()
         .max(255)
-        .required('Last name is required'),
+        .required('O sobrenome é obrigatório'),
       password: Yup
         .string()
         .max(255)
-        .required('Password is required'),
+        .required('Senha é obrigatória'),
       policy: Yup
         .boolean()
         .oneOf(
           [true],
-          'This field must be checked'
+          'Este campo deve ser marcado'
         )
     }),
     onSubmit: () => {
@@ -74,7 +74,7 @@ const Register = () => {
         }}
       >
         <Container maxWidth="sm">
-          <NextLink
+          {/* <NextLink
             href="/"
             passHref
           >
@@ -84,28 +84,28 @@ const Register = () => {
             >
               Dashboard
             </Button>
-          </NextLink>
+          </NextLink> */}
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
               <Typography
                 color="textPrimary"
                 variant="h4"
               >
-                Create a new account
+                Criar uma nova conta
               </Typography>
               <Typography
                 color="textSecondary"
                 gutterBottom
                 variant="body2"
               >
-                Use your email to create a new account
+                Use seu e-mail para criar uma nova conta
               </Typography>
             </Box>
             <TextField
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
               helperText={formik.touched.firstName && formik.errors.firstName}
-              label="First Name"
+              label="Primeiro Nome"
               margin="normal"
               name="firstName"
               onBlur={formik.handleBlur}
@@ -117,7 +117,7 @@ const Register = () => {
               error={Boolean(formik.touched.lastName && formik.errors.lastName)}
               fullWidth
               helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Last Name"
+              label="Ultímo nome"
               margin="normal"
               name="lastName"
               onBlur={formik.handleBlur}
@@ -129,7 +129,7 @@ const Register = () => {
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
+              label="Email"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
@@ -167,7 +167,7 @@ const Register = () => {
                 color="textSecondary"
                 variant="body2"
               >
-                I have read the
+                Eu li e aceito os
                 {' '}
                 <NextLink
                   href="#"
@@ -178,7 +178,7 @@ const Register = () => {
                     underline="always"
                     variant="subtitle2"
                   >
-                    Terms and Conditions
+                    Termos and Condições
                   </Link>
                 </NextLink>
               </Typography>
@@ -197,14 +197,14 @@ const Register = () => {
                 type="submit"
                 variant="contained"
               >
-                Sign Up Now
+                Inscrevasse agora
               </Button>
             </Box>
             <Typography
               color="textSecondary"
               variant="body2"
             >
-              Have an account?
+              Você já possui conta?
               {' '}
               <NextLink
                 href="/login"
@@ -214,7 +214,7 @@ const Register = () => {
                   variant="subtitle2"
                   underline="hover"
                 >
-                  Sign In
+                  Entrar
                 </Link>
               </NextLink>
             </Typography>
