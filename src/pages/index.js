@@ -14,7 +14,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Dashboard | Material Kit
+        Dashboard | Mental Health
       </title>
     </Head>
     <Box

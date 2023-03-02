@@ -35,7 +35,7 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login | Material Kit</title>
+        <title>Login | Mental Health</title>
       </Head>
       <div style={{ display: 'flex' }}>
       <Box

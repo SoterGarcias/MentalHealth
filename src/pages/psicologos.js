@@ -9,7 +9,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Products | Material Kit
+        Psicólogos | Mental Health
       </title>
     </Head>
     <Box

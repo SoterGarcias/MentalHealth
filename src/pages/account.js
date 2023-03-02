@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Conta | Material Kit
+        Conta | Mental Health
       </title>
     </Head>
     <Box
