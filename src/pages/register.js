@@ -45,7 +45,7 @@ const Register = () => {
         .required('Informe qual cargo ocupa nesse momento'),
         phone: Yup
         .number()
-        .max(15)
+        .max(150)
         .required('qual seu número de telefone'),
       password: Yup
         .string()
@@ -125,7 +125,7 @@ const Register = () => {
               error={Boolean(formik.touched.lastName && formik.errors.lastName)}
               fullWidth
               helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Ultímo nome"
+              label="Sobrenome"
               margin="normal"
               name="lastName"
               onBlur={formik.handleBlur}
@@ -240,6 +240,7 @@ const Register = () => {
                 size="large"
                 type="submit"
                 variant="contained"
+                onClick={() => console.log(formik.values)}
               >
                 Inscrevasse agora
               </Button>
