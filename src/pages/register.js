@@ -39,6 +39,14 @@ const Register = () => {
         .string()
         .max(255)
         .required('O sobrenome é obrigatório'),
+        management: Yup
+        .string()
+        .max(255)
+        .required('Informe qual cargo ocupa nesse momento'),
+        phone: Yup
+        .number()
+        .max(15)
+        .required('qual seu número de telefone'),
       password: Yup
         .string()
         .max(255)
@@ -123,6 +131,42 @@ const Register = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.lastName}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.management && formik.errors.management)}
+              fullWidth
+              helperText={formik.touched.management && formik.errors.management}
+              label="Cargo / Onde Trabalha"
+              margin="normal"
+              name="management"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.management}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.phone && formik.errors.phone)}
+              fullWidth
+              helperText={formik.touched.phone && formik.errors.phone}
+              label="Telefone"
+              margin="normal"
+              name="phone"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.phone}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.sectionsWeek && formik.errors.sectionsWeek)}
+              fullWidth
+              helperText={formik.touched.sectionsWeek && formik.errors.sectionsWeek}
+              label="Seções por semana desejada"
+              margin="normal"
+              name="sectionsWeek"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.sectionsWeek}
               variant="outlined"
             />
             <TextField
