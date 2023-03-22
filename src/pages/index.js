@@ -10,6 +10,7 @@ import { TotalProfit } from '../components/dashboard/total-profit';
 import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { Login } from '@mui/icons-material';
+import { ler } from '../Firebase/firebase';
 
 const Page = () => (
   <>
@@ -115,3 +116,5 @@ Page.getLayout = (page) => (
 );
 
 export default Page;
+
+ler()
