@@ -4,53 +4,41 @@ import { products } from '../__mocks__/products';
 import { ProductListToolbar } from '../components/psicologos/product-list-toolbar';
 import { ProductCard } from '../components/psicologos/product-card';
 import { DashboardLayout } from '../components/dashboard-layout';
+import Link from 'next/link';
 
 const Page = () => (
   <>
     <Head>
-      <title>
-        Psicólogos | Mental Health
-      </title>
+      <title>Psicólogos | Mental Health</title>
     </Head>
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 8,
       }}
     >
       <Container maxWidth={false}>
         <ProductListToolbar />
         <Box sx={{ pt: 3 }}>
-          <Grid
-            container
-            spacing={3}
-          >
+          <Grid container spacing={3}>
             {products.map((product) => (
-              <Grid
-                item
-                key={product.id}
-                lg={4}
-                md={6}
-                xs={12}
-              >
-                <ProductCard product={product} />
-              </Grid>
+              <Link key={product.id} href={`/psicologos/${product.id}`}>
+                <Grid item key={product.id} lg={4} md={6} xs={12}>
+                  <ProductCard product={product} />
+                </Grid>
+              </Link>
             ))}
           </Grid>
         </Box>
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 3
+            display: "flex",
+            justifyContent: "center",
+            pt: 3,
           }}
         >
-          <Pagination
-            color="primary"
-            count={3}
-            size="small"
-          />
+          <Pagination color="primary" count={3} size="small" />
         </Box>
       </Container>
     </Box>
