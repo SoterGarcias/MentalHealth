@@ -79,27 +79,7 @@ export const ProductCard = ({ product, ...rest }) => (
             {')'}
           </Typography>
         </Grid>
-        {/* <Grid
-          item
-          sx={{
-            alignItems: 'center',
-            display: 'flex'
-          }}
-        >
-          {/* <StarIcon sx={{ color: '#FFD700' }} /> */}
-          {/* <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            {'('}
-            {product.totalReviews}
-            {' '}
-            reviews
-            {')'}
-          </Typography>
-        </Grid> */} 
+        
       </Grid>
     </Box>
   </Card>

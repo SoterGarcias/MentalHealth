@@ -174,3 +174,30 @@ export const products = [
     notaEstrelas: '4.1'
   }
 ];
+
+
+// function Products() {
+//   const [searchTerm, setSearchTerm] = useState('');
+
+//   const handleSearchChange = (event) => {
+//     setSearchTerm(event.target.value);
+//   };
+
+//   const filteredProducts = products.filter((product) =>
+//     product.title.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+
+//   return (
+//     <div>
+//       <input
+//         type="text"
+//         placeholder="Pesquisar..."
+//         value={searchTerm}
+//         onChange={handleSearchChange}
+//       />
+//       {filteredProducts.map((product) => (
+//         // exibição dos produtos filtrados
+//       ))}
+//     </div>
+//   );
+// }
