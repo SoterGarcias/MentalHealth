@@ -195,4 +195,3 @@ export const products = [
 
 
 export const psicologos = JSON.parse(JSON.stringify(products));
->>>>>>> b3c4598d6794f9b6a03eca411e4e2cf7603145a2
