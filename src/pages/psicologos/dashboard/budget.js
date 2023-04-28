@@ -19,7 +19,7 @@ export const Budget = (props) => (
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "Orange",
+                    backgroundColor: "#F2E6A7",
                     height: 56,
                     width: 56,
                     display: "flex",
@@ -62,7 +62,7 @@ export const Budget = (props) => (
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "red",
+                    backgroundColor: "#EEBBB9",
                     height: 56,
                     width: 56,
                     display: "flex",
@@ -105,7 +105,7 @@ export const Budget = (props) => (
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "Blue",
+                    backgroundColor: "#A8D9EF",
                     height: 56,
                     width: 56,
                     display: "flex",

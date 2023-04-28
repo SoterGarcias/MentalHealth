@@ -1,7 +1,4 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
@@ -22,7 +19,7 @@ export const Contato_psicologo = (props) => (
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "Blue",
+                    backgroundColor: "#A8D9EF",
                     height: 56,
                     width: 56,
                     display: "flex",
@@ -65,7 +62,7 @@ export const Contato_psicologo = (props) => (
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "red",
+                    backgroundColor: "#EEBBB9",
                     height: 56,
                     width: 56,
                     display: "flex",
@@ -108,7 +105,7 @@ export const Contato_psicologo = (props) => (
               <Grid item>
                 <Avatar
                   sx={{
-                    backgroundColor: "Orange",
+                    backgroundColor: "#F2E6A7",
                     height: 56,
                     width: 56,
                     display: "flex",
