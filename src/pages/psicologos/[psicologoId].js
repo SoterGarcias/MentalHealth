@@ -52,7 +52,7 @@ const Psicologo = () => {
                     </p>
                   </div>
                 ) : (
-                  <p>Psicologo não foi encontrado</p>
+                  <p>Psicologo não foi encontrado!</p>
                 )}
               </section>
             </Grid>
