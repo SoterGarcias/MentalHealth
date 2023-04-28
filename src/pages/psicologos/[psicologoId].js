@@ -25,19 +25,32 @@ const Psicologo = () => {
         sx={{
           flexGrow: 1,
           py: 8,
+          backgroundColor: "#EDEDED",
         }}
       >
         <Container maxWidth={false}>
           <Box sx={{ pt: 3 }}>
             <Grid container spacing={3}>
               <section>
-                <h1>Psicologo</h1>
                 {psicologo ? (
                   <div>
-                    <img src={psicologo.media} alt="" width={300} height={300} />
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        src={psicologo.media}
+                        alt=""
+                        width={150}
+                        height={150}
+                        style={{ borderRadius: "50%" }}
+                      />
+                      <div style={{ marginLeft: "10px" }}>
+                        <h2>{psicologo.title}</h2>
+                        <p>Psicologo(a)</p>
+                      </div>
+                    </div>
+
                     <Budget />
                     <br></br>
-                    <h2>{psicologo.title}</h2>
+                    <h2>Sobre o Dr(a)</h2>
                     <p>{psicologo.description}</p>
                     <p>{psicologo.notaEstrelas}</p>
                     <br></br>
@@ -52,7 +65,7 @@ const Psicologo = () => {
                     </p>
                   </div>
                 ) : (
-                  <p>Psicologo não foi encontrado</p>
+                  <p>Psicologo não foi encontrado!</p>
                 )}
               </section>
             </Grid>
