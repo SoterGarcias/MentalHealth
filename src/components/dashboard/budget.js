@@ -14,7 +14,7 @@ export const Budget = (props) => (
             <img src="/static/images/dashboard/psicologo.jpg" alt="Psicologo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </Box>
           <Box sx={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '30px', backgroundColor: 'rgba(1, 167, 104, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography variant="subtitle1" sx={{ color: '#FFF', fontWeight: 'bold' }}>Psicólogos</Typography>
+            <Typography variant="subtitle1" sx={{ color: '#1D242E', fontWeight: 'bold' }}>Psicólogos</Typography>
           </Box>
         </Box>
       </Card>
