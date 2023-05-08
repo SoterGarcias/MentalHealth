@@ -1,69 +1,45 @@
 import Head from 'next/head';
 import NextLink from 'next/link';
 import Router from 'next/router';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+
 import {
   Box,
   Button,
   Checkbox,
   Container,
-  FormHelperText,
   Link,
   TextField,
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useState } from 'react';
+import axios from 'axios';
 
 const Register = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      policy: false
-    },
-    validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Deve ser um e-mail válido')
-        .max(255)
-        .required(
-          'O e-mail é obrigatório'),
-      firstName: Yup
-        .string()
-        .max(255)
-        .required('O primeiro nome é necessário'),
-      lastName: Yup
-        .string()
-        .max(255)
-        .required('O sobrenome é obrigatório'),
-        management: Yup
-        .string()
-        .max(255)
-        .required('Informe qual cargo ocupa nesse momento'),
-        phone: Yup
-        .number()
-        .max(150)
-        .required('qual seu número de telefone'),
-      password: Yup
-        .string()
-        .max(255)
-        .required('Senha é obrigatória'),
-      policy: Yup
-        .boolean()
-        .oneOf(
-          [true],
-          'Este campo deve ser marcado'
-        )
-    }),
-    onSubmit: () => {
-      Router
-        .push('/')
-        .catch(console.error);
-    }
+  const [formik, setFormik] = useState({
+    email: '',
+    firstName: '',
+    address: '',
+    management: '',
+    password: '',
+    phone: '',
+    sectionsWeek: '',
+    typeUser: '',
+    policy: true
   });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const url = 'http://localhost:3001/usuarios';
+    axios
+      .post(url, formik)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(`Ops! Deu erro no cadastro de usuário ` + error);
+      });
+  };
 
   return (
     <>
@@ -110,89 +86,82 @@ const Register = () => {
               </Typography>
             </Box>
             <TextField
-              error={Boolean(formik.touched.firstName && formik.errors.firstName)}
+              error={Boolean(formik.firstName && formik.errors.firstName)}
               fullWidth
-              helperText={formik.touched.firstName && formik.errors.firstName}
+              helperText={formik.firstName && formik.errors.firstName}
               label="Nome"
               margin="normal"
-              name="firstName"
+              name="Name"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.firstName}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.lastName && formik.errors.lastName)}
+              error={Boolean(formik.address && formik.errors.address)}
               fullWidth
-              helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Sobrenome"
+              helperText={formik.address && formik.errors.address}
+              label="Endereço"
               margin="normal"
-              name="lastName"
+              name="address"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.lastName}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.management && formik.errors.management)}
+              error={Boolean(formik.management && formik.errors.management)}
               fullWidth
-              helperText={formik.touched.management && formik.errors.management}
+              helperText={formik.management && formik.errors.management}
               label="Cargo / Onde Trabalha"
               margin="normal"
               name="management"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.management}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.phone && formik.errors.phone)}
+              error={Boolean(formik.phone && formik.errors.phone)}
               fullWidth
-              helperText={formik.touched.phone && formik.errors.phone}
+              helperText={formik.phone && formik.errors.phone}
               label="Telefone"
               margin="normal"
               name="phone"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.phone}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.sectionsWeek && formik.errors.sectionsWeek)}
+              error={Boolean(formik.sectionsWeek && formik.errors.sectionsWeek)}
               fullWidth
-              helperText={formik.touched.sectionsWeek && formik.errors.sectionsWeek}
+              helperText={formik.sectionsWeek && formik.errors.sectionsWeek}
               label="Seções por semana desejada"
               margin="normal"
               name="sectionsWeek"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.sectionsWeek}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
+              error={Boolean(formik.email && formik.errors.email)}
               fullWidth
-              helperText={formik.touched.email && formik.errors.email}
+              helperText={formik.email && formik.errors.email}
               label="Email"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="email"
-              value={formik.values.email}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
+              error={Boolean(formik.password && formik.errors.password)}
               fullWidth
-              helperText={formik.touched.password && formik.errors.password}
+              helperText={formik.password && formik.errors.password}
               label="Password"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="password"
-              value={formik.values.password}
               variant="outlined"
             />
             <Box
@@ -203,7 +172,7 @@ const Register = () => {
               }}
             >
               <Checkbox
-                checked={formik.values.policy}
+                //checked={formik.values.policy}
                 name="policy"
                 onChange={formik.handleChange}
               />
@@ -226,12 +195,19 @@ const Register = () => {
                   </Link>
                 </NextLink>
               </Typography>
+              <Checkbox
+                //checked={formik.values.policy}
+                name="typeUser"
+                onChange={formik.typeUser}
+              />
+              <Typography
+                color="textSecondary"
+                variant="body2"
+              >
+                Sou Psicologo
+                
+              </Typography>
             </Box>
-            {Boolean(formik.touched.policy && formik.errors.policy) && (
-              <FormHelperText error>
-                {formik.errors.policy}
-              </FormHelperText>
-            )}
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
