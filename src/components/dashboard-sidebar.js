@@ -15,6 +15,7 @@ import { Users as UsersIcon } from "../icons/users";
 import { XCircle as XCircleIcon } from "../icons/x-circle";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
+import Link from "next/link";
 
 const items = [
   {
@@ -92,16 +93,14 @@ export const DashboardSidebar = (props) => {
       >
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Box sx={{ p: 1.5 }}>
-            <NextLink href="/" passHref>
-              <a>
+            <Link href="/" passHref>
                 <Logo
                   sx={{
                     height: 84,
                     width: 84,
                   }}
                 />
-              </a>
-            </NextLink>
+            </Link>
           </Box>
         </div>
         <Divider

@@ -1,11 +1,16 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, useTheme } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 export const LatestOrders = (props) => {
   const theme = useTheme();
 
   return (
-    <Card {...props} sx={{ width: '456px', height: '140px' }}>
+    <Card {...props} 
+    sx={{ 
+      width: '456px', 
+      height: '140px' 
+      }}
+      >
       <Box
         sx={{
           display: 'flex',
@@ -28,8 +33,12 @@ export const LatestOrders = (props) => {
           p: 2,
         }}
       >
-        <Button color="primary" endIcon={<ArrowRightIcon fontSize="small" />} size="small">
-          Overview
+        <Button 
+          color="primary" 
+          endIcon={<ArrowRightIcon fontSize="small" />} 
+          size="small"
+          >
+          Visão Geral
         </Button>
       </Box>
     </Card>
