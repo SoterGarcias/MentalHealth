@@ -15,7 +15,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const Register = () => {
-  const [formik, setFormik] = useState({
+  const formik = useState({
     email: '',
     firstName: '',
     address: '',
@@ -29,6 +29,9 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log('Dados enviados:', formik); // Adicione este console.log para exibir os dados antes do envio
+
+
     const url = 'http://localhost:3001/usuarios';
     axios
       .post(url, formik)
