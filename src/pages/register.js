@@ -207,7 +207,7 @@ const Register = () => {
                 variant="body2"
               >
                 Sou Psicologo
-                
+
               </Typography>
             </Box>
             <Box sx={{ py: 2 }}>

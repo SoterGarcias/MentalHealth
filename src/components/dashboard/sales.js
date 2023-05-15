@@ -5,7 +5,8 @@ export const Sales = (props) => {
   const theme = useTheme();
 
   return (
-    <Card {...props} sx={{ width: '456px', height: '140px' }}>
+    <Card {...props} 
+      sx={{ width: '456px', height: '140px' }}>
       <Box
         sx={{
           display: 'flex',
@@ -28,7 +29,9 @@ export const Sales = (props) => {
           p: 2,
         }}
       >
-        <Button color="primary" endIcon={<ArrowRightIcon fontSize="small" />} size="small">
+        <Button color="primary" 
+          endIcon={<ArrowRightIcon fontSize="small" />} 
+          size="small">
           Overview
         </Button>
       </Box>
