@@ -1,54 +1,40 @@
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useState } from 'react';
+import { Box, Button, Checkbox, Container, Link, TextField, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import Router from 'next/router';
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  Link,
-  TextField,
-  Typography
-} from '@mui/material';
-import { useState } from 'react';
-import axios from 'axios';
-
 const Register = () => {
-  const formik = useState({
-    email: '',
-    firstName: '',
-    address: '',
-    management: '',
-    password: '',
-    phone: '',
-    sectionsWeek: '',
-    typeUser: '',
-    policy: true
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      firstName: '',
+      address: '',
+      management: '',
+      password: '',
+      phone: '',
+      sectionsWeek: '',
+      typeUser: '',
+      policy: false,
+    },
+    onSubmit: async (values) => {
+      try {
+        await addDoc(collection(db, 'psicologos'), values);
+        console.log('Documento inserido com sucesso');
+        Router.push('/login'); // Redirecionamento para a página de login
+      } catch (error) {
+        console.log('Erro ao inserir documento:', error);
+      }
+    },
   });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Dados enviados:', formik); // Adicione este console.log para exibir os dados antes do envio
-
-
-    const url = 'http://localhost:3001/usuarios';
-    axios
-      .post(url, formik)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(`Ops! Deu erro no cadastro de usuário ` + error);
-      });
-  };
 
   return (
     <>
       <Head>
-        <title>
-          Register | Mental Health
-        </title>
+        <title>Register | Mental Health</title>
       </Head>
       <Box
         component="main"
@@ -56,158 +42,118 @@ const Register = () => {
           alignItems: 'center',
           display: 'flex',
           flexGrow: 1,
-          minHeight: '100%'
+          minHeight: '100%',
         }}
       >
         <Container maxWidth="sm">
-          {/* <NextLink
-            href="/"
-            passHref
-          >
-            <Button
-              component="a"
-              startIcon={<ArrowBackIcon fontSize="small" />}
-            >
-              Dashboard
-            </Button>
-          </NextLink> */}
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3 }}>
-              <Typography
-                color="textPrimary"
-                variant="h4"
-              >
+              <Typography color="textPrimary" variant="h4">
                 Criar uma nova conta
               </Typography>
-              <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="body2"
-              >
+              <Typography color="textSecondary" gutterBottom variant="body2">
                 Use seu e-mail para criar uma nova conta
               </Typography>
             </Box>
             <TextField
-              error={Boolean(formik.firstName && formik.errors.firstName)}
               fullWidth
-              helperText={formik.firstName && formik.errors.firstName}
               label="Nome"
               margin="normal"
-              name="Name"
+              name="firstName"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              value={formik.values.firstName}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.address && formik.errors.address)}
               fullWidth
-              helperText={formik.address && formik.errors.address}
               label="Endereço"
               margin="normal"
               name="address"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              value={formik.values.address}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.management && formik.errors.management)}
               fullWidth
-              helperText={formik.management && formik.errors.management}
               label="Cargo / Onde Trabalha"
               margin="normal"
               name="management"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              value={formik.values.management}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.phone && formik.errors.phone)}
               fullWidth
-              helperText={formik.phone && formik.errors.phone}
               label="Telefone"
               margin="normal"
               name="phone"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              value={formik.values.phone}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.sectionsWeek && formik.errors.sectionsWeek)}
               fullWidth
-              helperText={formik.sectionsWeek && formik.errors.sectionsWeek}
               label="Seções por semana desejada"
               margin="normal"
               name="sectionsWeek"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
+              value={formik.values.sectionsWeek}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.email && formik.errors.email)}
               fullWidth
-              helperText={formik.email && formik.errors.email}
               label="Email"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="email"
+              value={formik.values.email}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.password && formik.errors.password)}
               fullWidth
-              helperText={formik.password && formik.errors.password}
-              label="Password"
+              label="Senha"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="password"
+              value={formik.values.password}
               variant="outlined"
             />
             <Box
               sx={{
                 alignItems: 'center',
                 display: 'flex',
-                ml: -1
+                ml: -1,
               }}
             >
               <Checkbox
-                //checked={formik.values.policy}
                 name="policy"
                 onChange={formik.handleChange}
+                checked={formik.values.policy}
               />
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
-                Eu li e aceito os
-                {' '}
-                <NextLink
-                  href="#"
-                  passHref
-                >
-                  <Link
-                    color="primary"
-                    underline="always"
-                    variant="subtitle2"
-                  >
+              <Typography color="textSecondary" variant="body2">
+                Eu li e aceito os{' '}
+                <NextLink href="#" passHref>
+                  <Link color="primary" underline="always" variant="subtitle2">
                     Termos and Condições
                   </Link>
                 </NextLink>
               </Typography>
               <Checkbox
-                //checked={formik.values.policy}
                 name="typeUser"
-                onChange={formik.typeUser}
+                onChange={formik.handleChange}
+                checked={formik.values.typeUser}
               />
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
+              <Typography color="textSecondary" variant="body2">
                 Sou Psicologo
-
               </Typography>
             </Box>
             <Box sx={{ py: 2 }}>
@@ -218,25 +164,14 @@ const Register = () => {
                 size="large"
                 type="submit"
                 variant="contained"
-                onClick={() => console.log(formik.values)}
               >
-                Inscrevasse agora
+                Inscrever-se agora
               </Button>
             </Box>
-            <Typography
-              color="textSecondary"
-              variant="body2"
-            >
-              Você já possui conta?
-              {' '}
-              <NextLink
-                href="/login"
-                passHref
-              >
-                <Link
-                  variant="subtitle2"
-                  underline="hover"
-                >
+            <Typography color="textSecondary" variant="body2">
+              Você já possui conta?{' '}
+              <NextLink href="/login" passHref>
+                <Link variant="subtitle2" underline="hover">
                   Entrar
                 </Link>
               </NextLink>
