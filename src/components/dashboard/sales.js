@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, useTheme } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 export const Sales = (props) => {
