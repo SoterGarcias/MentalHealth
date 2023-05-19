@@ -4,10 +4,12 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 export const Budget = (props) => (
-  <Grid container direction="row" spacing={3}>
-    <Grid item>
-      <Box
-        sx={{
+    <Grid  sx={{display: 'flex', justifyContent: 'space-around'}}>
+      <Grid sx={{display: 'flex'}}>
+      <Grid container direction="row" spacing={3} sx={{textAlign: 'center'}}>
+      <Grid item >
+        <Box
+          sx={{
           pt: 2,
           display: "flex",
           alignItems: "center",
@@ -45,7 +47,8 @@ export const Budget = (props) => (
         </Card>
       </Box>
     </Grid>
-
+    </Grid>
+    </Grid>
     {/* TAG 2 ------------------------------------------------------------------------------------ */}
 
     <Grid item>

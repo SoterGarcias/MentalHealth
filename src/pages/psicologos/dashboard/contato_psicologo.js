@@ -13,9 +13,9 @@ export const Contato_psicologo = (props) => (
           alignItems: "center",
         }}
       >
-        <Card sx={{ height: "100%" }} {...props}>
-          {
-            <CardContent>
+        <Card sx={{ height: "100%", backgroundColor: "transparent" }} {...props}>
+          <CardContent>
+            <Grid container spacing={3} alignItems="center">
               <Grid item>
                 <Avatar
                   sx={{
@@ -30,18 +30,16 @@ export const Contato_psicologo = (props) => (
                   <CallOutlinedIcon />
                 </Avatar>
               </Grid>
-              <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-                <Grid item>
-                  <Typography color="textPrimary" variant="h4">
-                    4.5
-                  </Typography>
-                  <Typography color="textSecondary" gutterBottom variant="overline">
-                    Estrelas
-                  </Typography>
-                </Grid>
+              <Grid item>
+                <Typography color="textPrimary" variant="h4">
+                  Ligações
+                </Typography>
+                <Typography color="textSecondary" gutterBottom variant="overline">
+                  Call your doctor directly
+                </Typography>
               </Grid>
-            </CardContent>
-          }
+            </Grid>
+          </CardContent>
         </Card>
       </Box>
     </Grid>
@@ -49,45 +47,44 @@ export const Contato_psicologo = (props) => (
     {/* TAG 2 ------------------------------------------------------------------------------------ */}
 
     <Grid item>
-      <Box
-        sx={{
-          pt: 2,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Card sx={{ height: "100%" }} {...props}>
-          {
-            <CardContent>
-              <Grid item>
-                <Avatar
-                  sx={{
-                    backgroundColor: "#EEBBB9",
-                    height: 56,
-                    width: 56,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ChatOutlinedIcon />
-                </Avatar>
-              </Grid>
-              <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-                <Grid item>
-                  <Typography color="textPrimary" variant="h4">
-                    10 Anos
-                  </Typography>
-                  <Typography color="textSecondary" gutterBottom variant="overline">
-                    Tempo de Formação
-                  </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-          }
-        </Card>
-      </Box>
-    </Grid>
+  <Box
+    sx={{
+      pt: 2,
+      display: "flex",
+      alignItems: "center",
+    }}
+  >
+    <Card sx={{ height: "100%", backgroundColor: "transparent" }} {...props}>
+      <CardContent>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item>
+            <Avatar
+              sx={{
+                backgroundColor: "#EEBBB9",
+                height: 56,
+                width: 56,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ChatOutlinedIcon />
+            </Avatar>
+          </Grid>
+          <Grid item>
+            <Typography color="textPrimary" variant="h4">
+              Mensagens
+            </Typography>
+            <Typography color="textSecondary" gutterBottom variant="overline">
+              Chat me up, share photos
+            </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  </Box>
+</Grid>
+
 
     {/* TAG 3 ------------------------------------------------------------------------------------------- */}
 
@@ -99,10 +96,10 @@ export const Contato_psicologo = (props) => (
           alignItems: "center",
         }}
       >
-        <Card sx={{ height: "100%" }} {...props}>
+        <Card sx={{ height: "100%", backgroundColor: "transparent" }} {...props}>
           {
             <CardContent>
-              <Grid item>
+              <Grid container spacing={3} alignItems="center">
                 <Avatar
                   sx={{
                     backgroundColor: "#F2E6A7",
@@ -119,10 +116,10 @@ export const Contato_psicologo = (props) => (
               <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
                 <Grid item>
                   <Typography color="textPrimary" variant="h4">
-                    1000+
+                    Vídeo chamadas
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="overline">
-                    Atendimentos Realizados
+                    See your doctor
                   </Typography>
                 </Grid>
               </Grid>
