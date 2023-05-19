@@ -4,7 +4,6 @@ import Router from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Facebook as FacebookIcon } from '../icons/facebook';
 import { Google as GoogleIcon } from '../icons/google';
 
@@ -57,7 +56,7 @@ const Login = () => {
           }}>
           Mental <br /> Healt
         </Typography>
-        <img src="/logo.svg" alt="logo" />
+        <img src="/logo.svg" alt="MentalHealth" />
       </Box>
       <Box
         component="main"
@@ -95,13 +94,7 @@ const Login = () => {
               >
                 Bem vindo de volta! Fico feliz em vê-lo, novamente!
               </Typography>
-              {/* <Typography
-                color="white"
-                gutterBottom
-                variant="body2"
-              >
-                Sign in on the internal platform
-              </Typography> */}
+             
             </Box>
             <Grid
               container

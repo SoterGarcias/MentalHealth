@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-max-props-per-line */
 import { Box, Container, Grid } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
