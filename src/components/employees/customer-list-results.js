@@ -81,13 +81,13 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
+                 Foto
+                </TableCell>
+                <TableCell>
                   Nome
                 </TableCell>
                 <TableCell>
-                  Matrícula
-                </TableCell>
-                <TableCell>
-                  Gerência
+                  Cargo
                 </TableCell>
                 <TableCell>
                   Telefone
@@ -133,7 +133,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.id}
+                    {customer.firstName}
                   </TableCell>
                   <TableCell>
                     {customer.management}

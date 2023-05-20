@@ -26,10 +26,10 @@ export const CustomerListToolbar = (props) => (
         sx={{ m: 1 }}
         variant="h4"
       >
-        Listagem de funcionários
+        Listagem de usuários
       </Typography>
       <Box sx={{ m: 1 }}>
-        <Button
+        {/* <Button
           startIcon={(<UploadIcon fontSize="small" />)}
           sx={{ mr: 1 }}
         >
@@ -46,7 +46,7 @@ export const CustomerListToolbar = (props) => (
           variant="contained"
         >
           Add funcionário
-        </Button>
+        </Button> */}
       </Box>
     </Box>
     <Box sx={{ mt: 3 }}>
