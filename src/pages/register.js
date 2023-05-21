@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { useState } from 'react';
 import { Box, Button, Checkbox, Container, Link, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore/lite';
 import { db } from '../lib/firebase';
 import Router from 'next/router';
 

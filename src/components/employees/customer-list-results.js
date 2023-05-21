@@ -95,6 +95,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                 <TableCell>
                   Sessões por semana
                 </TableCell>
+                <TableCell>
+                  Psicólogos
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -143,6 +146,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {customer.sectionsWeek}
+                  </TableCell>
+                  <TableCell>
+                    {customer.typeUser === '' ? 'NÃO' : 'SIM'}
                   </TableCell>
                 </TableRow>
               ))}
