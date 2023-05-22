@@ -1,50 +1,23 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { AuthContext } from '../contexts/auth-context';
-import { auth, ENABLE_AUTH } from '../lib/auth';
+import UserContext from '../lib/UserContext';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const authContext = useContext(AuthContext);
+  const userData = useContext(UserContext);
+
+  console.log('userData:', userData); // Log para verificar os dados do usuário
 
   const handleSignOut = async () => {
     onClose?.();
 
-    // Check if authentication with Zalter is enabled
-    // If not enabled, then redirect is not required
-    if (!ENABLE_AUTH) {
-      return;
-    }
-
-    // Check if auth has been skipped
-    // From login page we may have set "skip-auth" to "true"
-    // If this has been skipped, then redirect to "login" directly
-    const authSkipped = globalThis.sessionStorage.getItem('skip-auth') === 'true';
-
-    if (authSkipped) {
-      // Cleanup the skip auth state
-      globalThis.sessionStorage.removeItem('skip-auth');
-
-      // Redirect to login page
-      Router
-        .push('/login')
-        .catch(console.error);
-      return;
-    }
-
     try {
-      // This can be call inside AuthProvider component, but we do it here for simplicity
-      await auth.signOut();
-
-      // Update Auth Context state
-      authContext.signOut();
-
-      // Redirect to login page
-      Router
-        .push('/login')
-        .catch(console.error);
+      await authContext.signOut();
+      Router.push('/login').catch(console.error);
     } catch (err) {
       console.error(err);
     }
@@ -72,12 +45,10 @@ export const AccountPopover = (props) => {
       >
         <Typography variant="overline">
           Account
+          {userData && userData.name}
         </Typography>
-        <Typography
-          color="text.secondary"
-          variant="body2"
-        >
-          John Doe
+        <Typography color="text.secondary" variant="body2">
+          {userData && userData.name}
         </Typography>
       </Box>
       <MenuList
@@ -93,9 +64,7 @@ export const AccountPopover = (props) => {
           }
         }}
       >
-        <MenuItem onClick={handleSignOut}>
-          Log off
-        </MenuItem>
+        <MenuItem onClick={handleSignOut}>Log off</MenuItem>
       </MenuList>
     </Popover>
   );
