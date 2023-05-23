@@ -1,16 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 import { AuthContext } from '../contexts/auth-context';
-import UserContext from '../lib/UserContext';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
-  const authContext = useContext(AuthContext);
-  const userData = useContext(UserContext);
+  const [userName, setUserName] = useState('Nome do Usuário');
 
-  console.log('userData:', userData); // Log para verificar os dados do usuário
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      setUserName(userData.name);
+    }
+  }, []);
 
   const handleSignOut = async () => {
     onClose?.();
@@ -45,10 +49,9 @@ export const AccountPopover = (props) => {
       >
         <Typography variant="overline">
           Account
-          {userData && userData.name}
         </Typography>
         <Typography color="text.secondary" variant="body2">
-          {userData && userData.name}
+          {userName}
         </Typography>
       </Box>
       <MenuList
