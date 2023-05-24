@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
-import { AuthContext } from '../contexts/auth-context';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
-  const [userName, setUserName] = useState('Nome do Usuário');
-
+  const [userName, setUserName] = useState('');
+  
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       const userData = JSON.parse(storedUserData);
-      setUserName(userData.name);
+      setUserName(userData.firstName);
     }
   }, []);
 
@@ -41,17 +40,10 @@ export const AccountPopover = (props) => {
       }}
       {...other}
     >
-      <Box
-        sx={{
-          py: 1.5,
-          px: 2
-        }}
-      >
-        <Typography variant="overline">
-          Account
-        </Typography>
+      <Box sx={{ py: 1.5, px: 2 }}>
+        <Typography variant="overline">Account</Typography>
         <Typography color="text.secondary" variant="body2">
-          {userName}
+          {userName || 'Nome do Usuário'}
         </Typography>
       </Box>
       <MenuList
