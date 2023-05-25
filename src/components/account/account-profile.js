@@ -9,6 +9,9 @@ import {
   Typography
 } from '@mui/material';
 
+
+
+
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
   city: 'Los Angeles',
