@@ -30,6 +30,7 @@ const Login = () => {
 
           if (values.password === userPassword) {
             console.log('Senha correta. Faça o login do usuário.', userData);
+            userData.id = querySnapshot.docs[0].id;
             localStorage.setItem('userData', JSON.stringify(userData));
             Router.push('/');
           } else {

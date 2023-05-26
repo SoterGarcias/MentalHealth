@@ -11,11 +11,10 @@ import {
   Typography
 } from '@mui/material';
 import { db } from '../../lib/firebase';
-import { query, where } from 'firebase/firestore/lite';
+import { collection, doc, setDoc } from 'firebase/firestore/lite';
 
 
-
-export const AccountProfileDetails = (props) => {
+export default function ProfileDetails(props) {
   const [localStorageData, setLocalStorageData] = useState({
     firstName: '',
     lastName: '',
@@ -44,32 +43,16 @@ export const AccountProfileDetails = (props) => {
   const handleSaveChanges = () => {
     const { typeUser, ...dataToSave } = localStorageData;
 
-  firestore
-    .collection('psicologos')
-    .doc(localStorageData.id) // Substitua 'id-do-psicologo' pelo ID do documento do psicólogo que você deseja atualizar
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        const existingData = doc.data();
-        const newData = { ...existingData, ...dataToSave };
+    const psicologosRef = collection(db, 'psicologos');
+    const userRef = doc(psicologosRef, localStorageData.id);
 
-        firestore
-          .collection('psicologos')
-          .doc('id-do-psicologo') // Substitua 'id-do-psicologo' pelo ID do documento do psicólogo que você deseja atualizar
-          .set(newData)
-          .then(() => {
-            console.log('Mudanças salvas com sucesso!');
-          })
-          .catch((error) => {
-            console.error('Erro ao salvar as mudanças:', error);
-          });
-      } else {
-        console.log('Documento do psicólogo não encontrado!');
-      }
-    })
-    .catch((error) => {
-      console.error('Erro ao obter o documento do psicólogo:', error);
-    });
+    setDoc(userRef, dataToSave, { merge: true })
+      .then(() => {
+        console.log('Mudanças salvas com sucesso!');
+      })
+      .catch((error) => {
+        console.error('Erro ao salvar as mudanças:', error);
+      });
   };
 
   const customer = { typeUser: localStorageData.typeUser };
@@ -162,19 +145,19 @@ export const AccountProfileDetails = (props) => {
               </TextField>
             </Grid>
             <Grid item xs={12}>
-            {localStorageData.typeUser === '' ? '' : (
-              <TextField
-                fullWidth
-                label="Descrição"
-                name="description"
-                onChange={handleChange}
-                required
-                value={localStorageData.description}
-                variant="outlined"
-                sx={{ minHeight: '3rem' }}
-              >
-              </TextField>
-            )}
+              {localStorageData.typeUser === '' ? '' : (
+                <TextField
+                  fullWidth
+                  label="Descrição"
+                  name="description"
+                  onChange={handleChange}
+                  required
+                  value={localStorageData.description}
+                  variant="outlined"
+                  sx={{ minHeight: '3rem' }}
+                >
+                </TextField>
+              )}
             </Grid>
           </Grid>
         </CardContent>
