@@ -21,10 +21,17 @@ const Page = () => (
       <Container maxWidth={false}>
         <ProductListToolbar />
         <Box sx={{ pt: 3 }}>
-          <Grid container spacing={3}>
+          <Grid container 
+          spacing={3}>
             {products.map((product) => (
-              <Link key={product.id} href={`/psicologos/${product.id}`}>
-                <Grid item key={product.id} lg={4} md={6} xs={12}>
+              <Link key={product.id} 
+              href={`/psicologos/${product.id}`}>
+                <Grid item 
+                key={product.id} 
+                lg={4} 
+                md={4}
+                sm={6} 
+                xs={12}>
                   <ProductCard product={product} />
                 </Grid>
               </Link>
@@ -38,7 +45,9 @@ const Page = () => (
             pt: 3,
           }}
         >
-          <Pagination color="primary" count={3} size="small" />
+          <Pagination color="primary" 
+          count={3} 
+          size="small" />
         </Box>
       </Container>
     </Box>

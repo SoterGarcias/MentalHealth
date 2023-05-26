@@ -16,16 +16,6 @@ import { useState } from 'react';
 export const ProductListToolbar = ({ products, setSearchResults, ...props }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // const handleSearch = (event) => {
-  //   const query = event.target.value;
-  //   setSearchTerm(query);
-
-  //   const results = products.filter((product) =>
-  //     product.title.toLowerCase().includes(query.toLowerCase())
-  //   );
-  //   setSearchResults(results);
-  // };
-
   return (
     <Box {...props}>
       <Box
@@ -37,17 +27,21 @@ export const ProductListToolbar = ({ products, setSearchResults, ...props }) => 
           m: -1
         }}
       >
-        <Typography sx={{ m: 1 }} variant="h4">
+        <Typography sx={{ m: 1 }}
+          variant="h4">
           Psicólogos
         </Typography>
         <Box sx={{ m: 1 }}>
-          <Button startIcon={<UploadIcon fontSize="small" />} sx={{ mr: 1 }}>
+          <Button startIcon={<UploadIcon fontSize="small" />}
+            sx={{ mr: 1 }}>
             Importar
           </Button>
-          <Button startIcon={<DownloadIcon fontSize="small" />} sx={{ mr: 1 }}>
+          <Button startIcon={<DownloadIcon fontSize="small" />}
+            sx={{ mr: 1 }}>
             Exportar
           </Button>
-          <Button color="primary" variant="contained">
+          <Button color="primary"
+            variant="contained">
             Add psicólogo
           </Button>
         </Box>
@@ -61,7 +55,8 @@ export const ProductListToolbar = ({ products, setSearchResults, ...props }) => 
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SvgIcon fontSize="small" color="action">
+                      <SvgIcon fontSize="small"
+                        color="action">
                         <SearchIcon />
                       </SvgIcon>
                     </InputAdornment>
@@ -70,7 +65,6 @@ export const ProductListToolbar = ({ products, setSearchResults, ...props }) => 
                 placeholder="Procurar Psicólogo"
                 variant="outlined"
                 value={searchTerm}
-                //onChange={handleSearch}
               />
             </Box>
           </CardContent>
