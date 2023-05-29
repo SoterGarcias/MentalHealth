@@ -43,6 +43,8 @@ const AccountProfile = (props) => {
     if (file) {
       reader.readAsDataURL(file);
       setFile(file);
+      setShowSaveButton(true);
+
     }
   };
 
@@ -76,18 +78,6 @@ const AccountProfile = (props) => {
           >
             {user?.firstName}
           </Typography>
-          {/* <Typography
-            color="textSecondary"
-            variant="body2"
-          >
-            {`${user?.city} ${user?.country}`}
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="body2"
-          >
-            {user?.timezone}
-          </Typography> */}
         </Box>
       </CardContent>
       <Divider />

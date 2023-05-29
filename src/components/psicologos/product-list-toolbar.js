@@ -32,7 +32,7 @@ export const ProductListToolbar = ({ products, setSearchResults, ...props }) => 
           Psicólogos
         </Typography>
         <Box sx={{ m: 1 }}>
-          <Button startIcon={<UploadIcon fontSize="small" />}
+          {/* <Button startIcon={<UploadIcon fontSize="small" />}
             sx={{ mr: 1 }}>
             Importar
           </Button>
@@ -43,7 +43,7 @@ export const ProductListToolbar = ({ products, setSearchResults, ...props }) => 
           <Button color="primary"
             variant="contained">
             Add psicólogo
-          </Button>
+          </Button> */}
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
