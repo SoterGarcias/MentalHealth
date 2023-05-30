@@ -19,7 +19,8 @@ export const AccountPopover = (props) => {
     onClose?.();
 
     try {
-      await authContext.signOut();
+      
+      localStorage.clear(); // Limpa o localStorage
       Router.push('/login').catch(console.error);
     } catch (err) {
       console.error(err);

@@ -12,12 +12,12 @@ import {
 import { handleImageUpload } from '../../lib/firebase';
 
 const AccountProfile = (props) => {
-  const [avatar, setAvatar] = useState('/static/images/avatars/perfilGeral.png');
+  const [avatarUrl, setAvatarUrl] = useState('/static/images/avatars/perfilGeral.png');
   const [defaultAvatar, setDefaultAvatar] = useState('/static/images/avatars/perfilGeral.png');
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [file, setFile] = useState(null); // Adicionada a variável "file" ao estado do componente
   const userData = localStorage.getItem('userData');
-  const user = JSON.parse(userData) ?? {
+  const user = JSON.parse(userData) || {
     avatar: '/static/images/avatars/perfilGeral.png',
     city: 'Los Angeles',
     country: 'USA',
@@ -28,8 +28,10 @@ const AccountProfile = (props) => {
 
   useEffect(() => {
     const profileImageUrl = localStorage.getItem('profileImageUrl');
-    setAvatar(profileImageUrl && typeof profileImageUrl === 'string' ? profileImageUrl : defaultAvatar);
-    setShowSaveButton(profileImageUrl !== null);
+    if (profileImageUrl) {
+      setAvatarUrl(profileImageUrl);
+      setShowSaveButton(true);
+    }
   }, []);
 
   const handleAvatarChange = (event) => {
@@ -64,7 +66,7 @@ const AccountProfile = (props) => {
           }}
         >
           <Avatar
-            src={avatar}
+            src={user.profileImageUrl}
             sx={{
               height: 64,
               mb: 2,
@@ -76,7 +78,7 @@ const AccountProfile = (props) => {
             gutterBottom
             variant="h5"
           >
-            {user?.firstName}
+            {user.firstName}
           </Typography>
         </Box>
       </CardContent>
