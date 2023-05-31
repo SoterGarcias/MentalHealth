@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-max-props-per-line */
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Button } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { DashboardLayout } from "../../components/dashboard-layout";
@@ -49,6 +49,11 @@ const Psicologo = () => {
                       <div style={{ marginLeft: "10px" }}>
                         <h2>{psicologo.title}</h2>
                         <p>Psicologo(a)</p>
+                      </div>
+                      <div style={{ marginLeft: "auto" }}>
+                        <Button variant="contained" color="primary" onClick={() => { }}>
+                          Agendar uma consulta
+                        </Button>
                       </div>
                     </div>
 

@@ -13,54 +13,55 @@ const Page = () => {
   const router = useRouter();
   console.log("Router initialized", router); // Adicione esta linha
 
-return (
-  <>
-    <Head>
-      <title>Psicólogos | Mental Health</title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8,
-      }}
-    >
-      <Container maxWidth={false}>
-        <ProductListToolbar/>
-       
-        <Box sx={{ p: 3 }}>
-          <Grid container
-            spacing={3}>
-            {/* {products.map((product) => ( */}
-              <Link key={productId}
-                href={`/psicologos/${productId}`}>
-                <Grid item
-                  key={product.id}
-                  lg={4}
-                  md={4}
-                  sm={6}
-                  xs={12}>
-                  <ProductCard product={product} />
-                </Grid>
-              </Link>
-            ))}
-          </Grid>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            pt: 3,
-          }}
-        >
-          <Pagination color="primary"
-            count={3}
-            size="small" />
-        </Box>
-      </Container>
-    </Box>
-  </>
-);
+  return (
+    <>
+      <Head>
+        <title>Psicólogos | Mental Health</title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Container maxWidth={false}>
+          <ProductListToolbar />
+
+          <Box sx={{ p: 3 }}>
+            <Grid container
+              spacing={3}>
+              {products.map((product) => (
+                <Link key={product.id}
+                  href={`/psicologos/${product.id}`}>
+                  <Grid item
+                    key={product.id}
+                    lg={4}
+                    md={4}
+                    sm={6}
+                    xs={12}>
+                    <ProductCard product={product}
+                      id={product.id} />
+                  </Grid>
+                </Link>
+              ))}
+            </Grid>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              pt: 3,
+            }}
+          >
+            <Pagination color="primary"
+              count={3}
+              size="small" />
+          </Box>
+        </Container>
+      </Box>
+    </>
+  );
 };
 
 Page.getLayout = (page) => (

@@ -8,18 +8,18 @@ export const Budget = (props) => (
     <Grid item xs={12} sm={4}>
       <Box
         sx={{
-          pt: 2,
+          pt: 1,
           display: "flex",
           alignItems: "center",
         }}
       >
-        <Card sx={{ height: "100%" }} {...props}>
+        <Card sx={{ height: "100%", margin: 0 }} {...props}>
           <CardContent>
             <Avatar
               sx={{
                 backgroundColor: "#F2E6A7",
-                height: 56,
-                width: 56,
+                height: 45,
+                width: 45,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -27,12 +27,12 @@ export const Budget = (props) => (
             >
               <StarIcon />
             </Avatar>
-            <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
               <Grid item>
-                <Typography color="textPrimary" variant="h4">
+                <Typography color="textPrimary" variant="h6">
                   4.5
                 </Typography>
-                <Typography color="textSecondary" gutterBottom variant="overline">
+                <Typography color="textSecondary" gutterBottom variant="subtitle1">
                   Estrelas
                 </Typography>
               </Grid>
@@ -47,7 +47,7 @@ export const Budget = (props) => (
     <Grid item xs={12} sm={4}>
       <Box
         sx={{
-          pt: 2,
+          pt: 1,
           display: "flex",
           alignItems: "center",
         }}
@@ -57,8 +57,8 @@ export const Budget = (props) => (
             <Avatar
               sx={{
                 backgroundColor: "#EEBBB9",
-                height: 56,
-                width: 56,
+                height: 45,
+                width: 45,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -66,12 +66,12 @@ export const Budget = (props) => (
             >
               <WarningAmberIcon />
             </Avatar>
-            <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
               <Grid item>
-                <Typography color="textPrimary" variant="h4">
+                <Typography color="textPrimary" variant="h6">
                   10 Anos
                 </Typography>
-                <Typography color="textSecondary" gutterBottom variant="overline">
+                <Typography color="textSecondary" gutterBottom variant="subtitle1">
                   Tempo de Formação
                 </Typography>
               </Grid>
@@ -86,7 +86,7 @@ export const Budget = (props) => (
     <Grid item xs={12} sm={4}>
       <Box
         sx={{
-          pt: 2,
+          pt: 1,
           display: "flex",
           alignItems: "center",
         }}
@@ -96,8 +96,8 @@ export const Budget = (props) => (
             <Avatar
               sx={{
                 backgroundColor: "#A8D9EF",
-                height: 56,
-                width: 56,
+                height: 45,
+                width: 45,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -105,12 +105,12 @@ export const Budget = (props) => (
             >
               <PeopleAltIcon />
             </Avatar>
-            <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
               <Grid item>
-                <Typography color="textPrimary" variant="h4">
+                <Typography color="textPrimary" variant="h6">
                   1000+
                 </Typography>
-                <Typography color="textSecondary" gutterBottom variant="overline">
+                <Typography color="textSecondary" gutterBottom variant="subtitle1">
                   Atendimentos Realizados
                 </Typography>
               </Grid>

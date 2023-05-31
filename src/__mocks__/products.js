@@ -4,7 +4,7 @@ import { getDocs } from 'firebase/firestore/lite';
 
 export const products = [
   {
-    id: uuid(),
+    id: '96ca9009-e91d-41fb-96f1-e214e490ed19',
     createdAt: "27/03/2019",
     description:
       "Alana é uma psicóloga altamente qualificada e experiente que ajuda seus pacientes a descobrir seus próprios caminhos para a saúde mental e a felicidade. Ela é compassiva e compreensiva, criando um espaço seguro e acolhedor para seus clientes abrirem seus corações e compartilharem suas preocupações mais profundas.",

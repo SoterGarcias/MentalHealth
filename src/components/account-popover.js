@@ -6,7 +6,7 @@ import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
   const [userName, setUserName] = useState('');
-  
+
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
@@ -19,12 +19,16 @@ export const AccountPopover = (props) => {
     onClose?.();
 
     try {
-      
+
       localStorage.clear(); // Limpa o localStorage
       Router.push('/login').catch(console.error);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleAccountClick = () => {
+    Router.push('/account').catch(console.error);
   };
 
   return (
@@ -42,7 +46,9 @@ export const AccountPopover = (props) => {
       {...other}
     >
       <Box sx={{ py: 1.5, px: 2 }}>
-        <Typography variant="overline">Account</Typography>
+        <Typography variant="overline" onClick={handleAccountClick} style={{ cursor: 'pointer' }}>
+          Account
+        </Typography>
         <Typography color="text.secondary" variant="body2">
           {userName || 'Nome do Usuário'}
         </Typography>
