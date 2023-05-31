@@ -34,7 +34,7 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>Register | Mental Health</title>
+        <title>Cadastrar | Mental Health</title>
       </Head>
       <Box
         component="main"
@@ -177,10 +177,10 @@ const Register = () => {
               </NextLink>
             </Typography>
           </form>
-        </Box>
+        </Container>
       </Box>
-    </ThemeProvider>
+    </>
   );
 };
 
-export default Formulario;
+export default Register;
