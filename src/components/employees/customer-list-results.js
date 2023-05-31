@@ -2,19 +2,7 @@ import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import {
-  Avatar,
-  Box,
-  Card,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography
-} from '@mui/material';
+import {Avatar,  Box, Card, Checkbox, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
 export const CustomerListResults = ({ customers, ...rest }) => {
@@ -81,19 +69,22 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
+                 Foto
+                </TableCell>
+                <TableCell>
                   Nome
                 </TableCell>
                 <TableCell>
-                  Matrícula
-                </TableCell>
-                <TableCell>
-                  Gerência
+                  Cargo
                 </TableCell>
                 <TableCell>
                   Telefone
                 </TableCell>
                 <TableCell>
                   Sessões por semana
+                </TableCell>
+                <TableCell>
+                  Psicólogos
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -119,7 +110,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={customer.avatarUrl}
+                        src={customer.profileImageUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
@@ -133,7 +124,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.id}
+                    {customer.firstName}
                   </TableCell>
                   <TableCell>
                     {customer.management}
@@ -143,6 +134,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {customer.sectionsWeek}
+                  </TableCell>
+                  <TableCell>
+                    {customer.typeUser === '' ? 'NÃO' : 'SIM'}
                   </TableCell>
                 </TableRow>
               ))}

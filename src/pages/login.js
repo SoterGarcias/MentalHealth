@@ -1,34 +1,51 @@
+import React from 'react';
 import Head from 'next/head';
-import NextLink from 'next/link';
-import Router from 'next/router';
+import { Link } from '@mui/material'; // Importação corrigida
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
-import { Facebook as FacebookIcon } from '../icons/facebook';
-import { Google as GoogleIcon } from '../icons/google';
+import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { collection, query, where, getDocs } from 'firebase/firestore/lite';
+import { auth, db } from '../lib/firebase';
+import Router from 'next/router';
 
 const Login = () => {
   const formik = useFormik({
     initialValues: {
-      email: 'teste@teste.com',
-      password: '123'
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
-      email: Yup
-        .string()
-        .email('Must be a valid email')
-        .max(255)
-        .required('Email is required'),
-      password: Yup
-        .string()
-        .max(255)
-        .required('Password is required')
+      email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+      password: Yup.string().max(255).required('Password is required'),
     }),
-    onSubmit: () => {
-      Router
-        .push('/')
-        .catch(console.error);
-    }
+    onSubmit: async (values) => {
+      try {
+        const psicologosRef = collection(db, 'psicologos');
+        const q = query(psicologosRef, where('email', '==', values.email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          const userPassword = userData.password;
+
+          if (values.password === userPassword) {
+            console.log('Senha correta. Faça o login do usuário.', userData);
+            userData.id = querySnapshot.docs[0].id;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            Router.push('/');
+          } else {
+            console.log('Senha ou email incorreto.');
+            alert('Senha ou email incorreto.');
+          }
+        } else {
+          console.log('Senha ou email incorreto.');
+          alert('Senha ou email incorreto.');
+        }
+      } catch (error) {
+        console.error('Error retrieving user data:', error);
+        console.log('Erro ao recuperar dados do usuário.', error);
+      }
+    },
   });
 
   return (
@@ -37,178 +54,97 @@ const Login = () => {
         <title>Login | Mental Health</title>
       </Head>
       <div style={{ display: 'flex' }}>
-      <Box
-        sx={{
-          display: "flex",
-          // alignItems: "center",
-          // justifyContent: "center",
-          height: "100vh",
-          backgroundColor: "#009099",
-          flex: 1
-        }}
-      >
-        <Typography variant="h1" 
-        sx={{ 
-          color: "white", 
-          textAlign: "left",
-          px: 15,
-          py: 10,
-          }}>
-          Mental <br /> Healt
-        </Typography>
-        <img src="/logo.svg" alt="MentalHealth" />
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          justifyContent: "flex-end",
-          alignItems: "center",
-          display: "flex",
-          flexGrow: 1,
-          minHeight: "100%",
-          height: "100vh",
-          maxWidth: "400px",
-          backgroundColor: "#283342",
-          color: "white",
-          px: 3,
-
-        }}
-      >
-        <Container maxWidth="sm">
-          {/* <NextLink
-            href="/"
-            passHref
+        <Box
+          sx={{
+            display: 'flex',
+            height: '100vh',
+            backgroundColor: '#009099',
+            flex: 1,
+          }}
+        >
+          <Typography
+            variant="h1"
+            sx={{
+              color: 'white',
+              textAlign: 'left',
+              px: 15,
+              py: 10,
+            }}
           >
-            <Button
-              component="a"
-              startIcon={<ArrowBackIcon fontSize="small" />}
-            >
-              Dashboard
-            </Button>
-          </NextLink> */}
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography
-                color="white"
-                variant="h4"
-              >
-                Bem vindo de volta! Fico feliz em vê-lo, novamente!
-              </Typography>
-             
-            </Box>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                item
-                xs={12}
-                md={6}
-              >
-                <Button
-                  color="info"
-                  fullWidth
-                  startIcon={<FacebookIcon />}
-                  onClick={() => formik.handleSubmit()}
-                  size="small"
-                  variant="contained"
-                >
-                  Login com Facebook
-                </Button>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={6}
-              >
-                <Button
-                  color="error"
-                  fullWidth
-                  onClick={() => formik.handleSubmit()}
-                  size="small"
-                  startIcon={<GoogleIcon />}
-                  variant="contained"
-                >
-                  Login com Google
-                </Button>
-              </Grid>
-            </Grid>
-            <Box
-              sx={{
-                pb: 1,
-                pt: 3
-              }}
-            >
-              <Typography
-                align="center"
-                color="textSecondary"
-                variant="body1"
-              >
-                ou faça o login com endereço de e-mail
-              </Typography>
-            </Box>
-            <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
-              fullWidth
-              helperText={formik.touched.email && formik.errors.email}
-              label="Email"
-              margin="normal"
-              name="email"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="email"
-              value={formik.values.email}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-            />
-            <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
+            Mental <br /> Health
+          </Typography>
+          <img src="/logo.svg" alt="logo" />
+        </Box>
+        <Box
+          component="main"
+          sx={{
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            display: 'flex',
+            flexGrow: 1,
+            minHeight: '100%',
+            height: '100vh',
+            maxWidth: '400px',
+            backgroundColor: '#283342',
+            color: 'white',
+            px: 3,
+          }}
+        >
+          <Container maxWidth="sm">
+            <form onSubmit={formik.handleSubmit}>
+              <Box sx={{ my: 3 }}>
+                <Typography color="white" variant="h4">
+                  Login
+                </Typography>
+              </Box>
+              <TextField
                 fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                Sign In Now
+                id="email"
+                name="email"
+                label="Email"
+                type="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                sx={{ mb: 3 }}
+              />
+              <TextField
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
+                sx={{ mb: 3 }}
+              />
+              <Button color="primary" fullWidth type="submit" variant="contained">
+                Login
               </Button>
-            </Box>
-            <Typography
-              color="textSecondary"
-              variant="body2"
-            >
-              Don&apos;t have an account?
-              {' '}
-              <NextLink
-                href="/register"
-              >
-                <Link
-                  to="/register"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: 'pointer'
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </NextLink>
-            </Typography>
-          </form>
-        </Container>
-      </Box>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/register" passHref>
+                    <Link
+                      color="inherit"
+                      sx={{
+                        textDecoration: 'none',
+                        color: 'white',
+                        display: 'block',
+                        textAlign: 'center',
+                        mt: 2,
+                      }}
+                    >
+                      Ainda não é inscrito? inscrever-se
+                    </Link>
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </Container>
+        </Box>
       </div>
     </>
   );

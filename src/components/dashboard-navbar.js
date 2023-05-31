@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
@@ -18,6 +18,18 @@ export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
+  const [avatarPath, setAvatarPath] = useState('');
+
+  useEffect(() => {
+    const storedAvatarPath = localStorage.getItem('avatarPath');
+    if (storedAvatarPath && storedAvatarPath !== '') {
+      setAvatarPath(storedAvatarPath);
+    }
+  }, []);
+
+  const handleAvatarClick = () => {
+    setOpenAccountPopover(true);
+  };
 
   return (
     <>
@@ -30,7 +42,8 @@ export const DashboardNavbar = (props) => {
             lg: 'calc(100% - 280px)'
           }
         }}
-        {...other}>
+        {...other}
+      >
         <Toolbar
           disableGutters
           sx={{
@@ -63,17 +76,13 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
           <Tooltip title="Notifications">
             <IconButton sx={{ ml: 1 }}>
-              <Badge
-                badgeContent={4}
-                color="primary"
-                variant="dot"
-              >
+              <Badge badgeContent={4} color="primary" variant="dot">
                 <BellIcon fontSize="small" />
               </Badge>
             </IconButton>
           </Tooltip>
           <Avatar
-            onClick={() => setOpenAccountPopover(true)}
+            onClick={handleAvatarClick}
             ref={settingsRef}
             sx={{
               cursor: 'pointer',
@@ -81,7 +90,7 @@ export const DashboardNavbar = (props) => {
               width: 40,
               ml: 1
             }}
-            src="/static/images/avatars/avatar_1.png"
+            src={avatarPath}
           >
             <UserCircleIcon fontSize="small" />
           </Avatar>

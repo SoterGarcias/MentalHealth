@@ -1,234 +1,181 @@
-import React, { useState } from 'react';
-import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField, Button } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
+import Head from 'next/head';
+import NextLink from 'next/link';
+import { useState } from 'react';
+import { Box, Button, Checkbox, Container, Link, TextField, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import { collection, addDoc } from 'firebase/firestore/lite';
+import { db } from '../lib/firebase';
+import Router from 'next/router';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1A237E',
+const Register = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      firstName: '',
+      address: '',
+      management: '',
+      password: '',
+      phone: '',
+      sectionsWeek: '',
+      typeUser: '',
+      policy: false,
     },
-  },
-});
-
-const Formulario = () => {
-  const [tipoPessoa, setTipoPessoa] = useState('');
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [management, setManagement] = useState('');
-  const [phone, setPhone] = useState('');
-  const [avatarUrl, setAvatarUrl] = useState('');
-  const [crp, setCrp] = useState('');
-  const [description, setDescription] = useState('');
-  const [media, setMedia] = useState('');
-  const [title, setTitle] = useState('');
-  const [totalReviews, setTotalReviews] = useState('');
-  const [notaEstrelas, setNotaEstrelas] = useState('');
-
-  const handleChangeTipoPessoa = (event) => {
-    setTipoPessoa(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  
-    const formData = {
-      tipoPessoa,
-      name,
-      address,
-      management,
-      phone,
-      avatarUrl,
-      crp,
-      description,
-      media,
-      title,
-      totalReviews,
-      notaEstrelas,
-    };
-  
-    if (tipoPessoa === 'paciente') {
-      // Requisição POST para cadastrar informações de paciente
-      axios.post('http://localhost:3001/pacientes', formData)
-        .then((response) => {
-          console.log('Informações de paciente cadastradas com sucesso!', response.data);
-          // Limpar campos do formulário
-          setTipoPessoa('');
-          setName('');
-          setAddress('');
-          setManagement('');
-          setPhone('');
-          setAvatarUrl('');
-        })
-        .catch((error) => {
-          console.error('Erro ao cadastrar informações de paciente:', error);
-        });
-    } else if (tipoPessoa === 'psicologo') {
-      // Requisição POST para cadastrar informações de psicólogo
-      axios.post('http://localhost:3001/psicologos', formData)
-        .then((response) => {
-          console.log('Informações de psicólogo cadastradas com sucesso!', response.data);
-          // Limpar campos do formulário
-          setTipoPessoa('');
-          setNome('');
-          setCrp('');
-          setDescription('');
-          setMedia('');
-          setTitle('');
-          setTotalReviews('');
-          setNotaEstrelas('');
-        })
-        .catch((error) => {
-          console.error('Erro ao cadastrar informações de psicólogo:', error);
-        });
-    }
-  };
+    onSubmit: async (values) => {
+      try {
+        await addDoc(collection(db, 'psicologos'), values);
+        console.log('Documento inserido com sucesso');
+        Router.push('/login'); // Redirecionamento para a página de login
+      } catch (error) {
+        console.log('Erro ao inserir documento:', error);
+      }
+    },
+  });
 
   return (
-    <ThemeProvider theme={theme}>
-      <h1>Cadastro de Usuário</h1>
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <Box p={4} bgcolor="#FFFFFF" borderRadius={8}>
-          <form onSubmit={handleSubmit}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Tipo de Pessoa</FormLabel>
-              <RadioGroup row aria-label="tipoPessoa" name="tipoPessoa" value={tipoPessoa} onChange={handleChangeTipoPessoa}>
-                <FormControlLabel value="paciente" control={<Radio />} label="Paciente" />
-                <FormControlLabel value="psicologo" control={<Radio />} label="Psicólogo" />
-              </RadioGroup>
-            </FormControl>
-
-            {tipoPessoa === 'paciente' && (
-              <>
-                <TextField
-                  label="Nome do Paciente"
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Endereço do Paciente"
-                  value={address}
-                  onChange={(event) => setAddress(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Gerenciamento do Paciente"
-                  value={management}
-                  onChange={(event) => setManagement(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Telefone do Paciente"
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="URL do Avatar do Paciente"
-                  value={avatarUrl}
-                  onChange={(event) => setAvatarUrl(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-              </>
-            )}
-
-            {tipoPessoa === 'psicologo' && (
-              <>
-                <TextField
-                  label="Nome do Psicólogo"
-                  value={nome}
-                  onChange={(event) => setNome(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="CRP do Psicólogo"
-                  value={crp}
-                  onChange={(event) => setCrp(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Descrição do Psicólogo"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Média do Psicólogo"
-                  value={media}
-                  onChange={(event) => setMedia(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Título do Psicólogo"
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Total de Avaliações do Psicólogo"
-                  value={totalReviews}
-                  onChange={(event) => setTotalReviews(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-
-                <TextField
-                  label="Nota de Estrelas do Psicólogo"
-                  value={notaEstrelas}
-                  onChange={(event) => setNotaEstrelas(event.target.value)}
-                  fullWidth
-                  required
-                  margin="normal"
-                  size="small"
-                />
-              </>
-            )}
-
-            <Button variant="contained" color="primary" type="submit" fullWidth>
-              Enviar
-            </Button>
+    <>
+      <Head>
+        <title>Register | Mental Health</title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          flexGrow: 1,
+          minHeight: '100%',
+        }}
+      >
+        <Container maxWidth="sm">
+          <form onSubmit={formik.handleSubmit}>
+            <Box sx={{ my: 3 }}>
+              <Typography color="textPrimary" variant="h4">
+                Criar uma nova conta
+              </Typography>
+              <Typography color="textSecondary" gutterBottom variant="body2">
+                Use seu e-mail para criar uma nova conta
+              </Typography>
+            </Box>
+            <TextField
+              fullWidth
+              label="Nome"
+              margin="normal"
+              name="firstName"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.firstName}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Endereço"
+              margin="normal"
+              name="address"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.address}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Cargo / Onde Trabalha"
+              margin="normal"
+              name="management"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.management}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Telefone"
+              margin="normal"
+              name="phone"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.phone}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Seções por semana desejada"
+              margin="normal"
+              name="sectionsWeek"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.sectionsWeek}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Email"
+              margin="normal"
+              name="email"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="email"
+              value={formik.values.email}
+              variant="outlined"
+            />
+            <TextField
+              fullWidth
+              label="Senha"
+              margin="normal"
+              name="password"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="password"
+              value={formik.values.password}
+              variant="outlined"
+            />
+            <Box
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                ml: -1,
+              }}
+            >
+              <Checkbox
+                name="policy"
+                onChange={formik.handleChange}
+                checked={formik.values.policy}
+              />
+              <Typography color="textSecondary" variant="body2">
+                Eu li e aceito os{' '}
+                <NextLink href="#" passHref>
+                  <Link color="primary" underline="always" variant="subtitle2">
+                    Termos and Condições
+                  </Link>
+                </NextLink>
+              </Typography>
+              <Checkbox
+                name="typeUser"
+                onChange={formik.handleChange}
+                checked={formik.values.typeUser}
+              />
+              <Typography color="textSecondary" variant="body2">
+                Sou Psicologo
+              </Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Button
+                color="primary"
+                disabled={formik.isSubmitting}
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+              >
+                Inscrever-se agora
+              </Button>
+            </Box>
+            <Typography color="textSecondary" variant="body2">
+              Você já possui conta?{' '}
+              <NextLink href="/login" passHref>
+                <Link variant="subtitle2" underline="hover">
+                  Entrar
+                </Link>
+              </NextLink>
+            </Typography>
           </form>
         </Box>
       </Box>

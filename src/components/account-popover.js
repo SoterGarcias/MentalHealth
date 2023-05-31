@@ -1,53 +1,34 @@
-import { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
-import { AuthContext } from '../contexts/auth-context';
-import { auth, ENABLE_AUTH } from '../lib/auth';
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
-  const authContext = useContext(AuthContext);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      setUserName(userData.firstName);
+    }
+  }, []);
 
   const handleSignOut = async () => {
     onClose?.();
 
-    // Check if authentication with Zalter is enabled
-    // If not enabled, then redirect is not required
-    if (!ENABLE_AUTH) {
-      return;
-    }
-
-    // Check if auth has been skipped
-    // From login page we may have set "skip-auth" to "true"
-    // If this has been skipped, then redirect to "login" directly
-    const authSkipped = globalThis.sessionStorage.getItem('skip-auth') === 'true';
-
-    if (authSkipped) {
-      // Cleanup the skip auth state
-      globalThis.sessionStorage.removeItem('skip-auth');
-
-      // Redirect to login page
-      Router
-        .push('/login')
-        .catch(console.error);
-      return;
-    }
-
     try {
-      // This can be call inside AuthProvider component, but we do it here for simplicity
-      await auth.signOut();
 
-      // Update Auth Context state
-      authContext.signOut();
-
-      // Redirect to login page
-      Router
-        .push('/login')
-        .catch(console.error);
+      localStorage.clear(); // Limpa o localStorage
+      Router.push('/login').catch(console.error);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleAccountClick = () => {
+    Router.push('/account').catch(console.error);
   };
 
   return (
@@ -64,20 +45,12 @@ export const AccountPopover = (props) => {
       }}
       {...other}
     >
-      <Box
-        sx={{
-          py: 1.5,
-          px: 2
-        }}
-      >
-        <Typography variant="overline">
+      <Box sx={{ py: 1.5, px: 2 }}>
+        <Typography variant="overline" onClick={handleAccountClick} style={{ cursor: 'pointer' }}>
           Account
         </Typography>
-        <Typography
-          color="text.secondary"
-          variant="body2"
-        >
-          John Doe
+        <Typography color="text.secondary" variant="body2">
+          {userName || 'Nome do Usuário'}
         </Typography>
       </Box>
       <MenuList
@@ -93,9 +66,7 @@ export const AccountPopover = (props) => {
           }
         }}
       >
-        <MenuItem onClick={handleSignOut}>
-          Log off
-        </MenuItem>
+        <MenuItem onClick={handleSignOut}>Log off</MenuItem>
       </MenuList>
     </Popover>
   );

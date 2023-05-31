@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Box, Container, Grid, Typography } from '@mui/material';
-import { AccountProfile } from '../components/account/account-profile';
-import { AccountProfileDetails } from '../components/account/account-profile-details';
+import AccountProfile from '../components/account/account-profile';
+import ProfileDetails from '../components/account/account-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 const Page = () => (
@@ -43,7 +43,7 @@ const Page = () => (
             md={6}
             xs={12}
           >
-            <AccountProfileDetails />
+            <ProfileDetails />
           </Grid>
         </Grid>
       </Container>

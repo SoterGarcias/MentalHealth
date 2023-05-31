@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -7,267 +7,168 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField
+  TextField,
+  Typography
 } from '@mui/material';
+import { db } from '../../lib/firebase';
+import { collection, doc, setDoc } from 'firebase/firestore/lite';
 
-const states = [
-  {
-    value: 'acre',
-    label: 'Acre'
-  },
-  {
-    value: 'alagoas',
-    label: 'Alagoas'
-  },
-  {
-    value: 'amapa',
-    label: 'Amapá'
-  },
-  {
-    value: 'amazonas',
-    label: 'Amazonas'
-  },
-  {
-    value: 'bahia',
-    label: 'Bahia'
-  },
-  {
-    value: 'ceara',
-    label: 'Ceara'
-  },
-  {
-    value: 'distrito federal',
-    label: 'Distrito Federal'
-  },
-  {
-    value: 'espirito santo',
-    label: 'Espírito Santo'
-  },
-  {
-    value: 'goias',
-    label: 'Goiás'
-  },
-  {
-    value: 'maranhao',
-    label: 'Maranhão'
-  },
-  {
-    value: 'mato grosso',
-    label: 'Mato Grosso'
-  },
-  {
-    value: 'mato grosso do sul',
-    label: 'Mato Grosso do Sul'
-  },
-  {
-    value: 'minas gerais',
-    label: 'Minas Gerais'
-  },
-  {
-    value: 'para',
-    label: 'Pará'
-  },
-  {
-    value: 'paraiba',
-    label: 'Paraíba'
-  },
-  {
-    value: 'pernambuco',
-    label: 'Pernambuco'
-  },
-  {
-    value: 'piaui',
-    label: 'Piauí'
-  },
-  {
-    value: 'rio de janeiro',
-    label: 'Rio de Janeiro'
-  },
-  {
-    value: 'rio grande do norte',
-    label: 'Rio Grande do norte'
-  },
-  {
-    value: 'rio grande do sul',
-    label: 'Rio Grande do Sul'
-  },
-  {
-    value: 'rondonia',
-    label: 'Rondônia'
-  },
-  {
-    value: 'roraima',
-    label: 'Roraima'
-  },
-  {
-    value: 'santa catarina',
-    label: 'Santa Catarina'
-  },
-  {
-    value: 'sao paulo',
-    label: 'São Paulo'
-  },
-  {
-    value: 'sergipe',
-    label: 'Sergipe'
-  },
-  {
-    value: 'tocantis',
-    label: 'Tocantins'
-  }
-];
 
-export const AccountProfileDetails = (props) => {
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
+export default function ProfileDetails(props) {
+  const [localStorageData, setLocalStorageData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
     phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    state: '',
+    country: '',
+    typeUser: ''
   });
 
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setLocalStorageData(parsedUserData);
+    }
+  }, []);
+
   const handleChange = (event) => {
-    setValues({
-      ...values,
+    setLocalStorageData({
+      ...localStorageData,
       [event.target.name]: event.target.value
     });
   };
 
+  const handleSaveChanges = () => {
+    const { typeUser, ...dataToSave } = localStorageData;
+
+    const psicologosRef = collection(db, 'psicologos');
+    const userRef = doc(psicologosRef, localStorageData.id);
+
+    setDoc(userRef, dataToSave, { merge: true })
+      .then(() => {
+        console.log('Mudanças salvas com sucesso!');
+      })
+      .catch((error) => {
+        console.error('Erro ao salvar as mudanças:', error);
+      });
+  };
+
+  const customer = { typeUser: localStorageData.typeUser };
+
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      {...props}
-    >
+    <form autoComplete="off" noValidate {...props}>
       <Card>
-        <CardHeader
-          subheader="As informações podem ser alteradas"
-          title="Perfil"
-        />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', marginLeft: '20px', marginRight: '20px' }}>
+          <div>
+            <Typography variant="h6" component="div" gutterBottom>
+              Perfil
+            </Typography>
+            <Typography variant="subtitle2" component="div" color="text.secondary">
+              As informações podem ser alteradas
+            </Typography>
+          </div>
+          <Typography variant="subtitle2" component="div" color="text.secondary">
+            {localStorageData.typeUser === '' ? '' : 'Perfil de Psicólogo'}
+          </Typography>
+        </div>
         <Divider />
         <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 helperText="Por favor, escreva seu primeiro nome"
                 label="Nome"
-                name="Nome"
+                name="firstName"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={localStorageData.firstName}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item xs={6}>
               <TextField
                 fullWidth
-                label="Sobrenome"
-                name="Sobrenome"
+                label="Endereço"
+                name="address"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={localStorageData.address}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item xs={6}>
               <TextField
                 fullWidth
-                label="Email"
-                name="email"
+                label="Cargo"
+                name="management"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={localStorageData.management}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item xs={6}>
               <TextField
                 fullWidth
                 label="Número de telefone"
-                name="Telefone"
+                name="phone"
                 onChange={handleChange}
                 type="number"
-                value={values.phone}
+                value={localStorageData.phone}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item xs={6}>
               <TextField
                 fullWidth
-                label="Pais"
-                name="Pais"
+                label="Seções por semana"
+                name="sectionsWeek"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={localStorageData.sectionsWeek}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+            <Grid item xs={6}>
               <TextField
                 fullWidth
-                label="Estado"
-                name="estado"
+                label="Email "
+                name="email"
                 onChange={handleChange}
                 required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
+                value={localStorageData.email}
                 variant="outlined"
               >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
               </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              {localStorageData.typeUser === '' ? '' : (
+                <TextField
+                  fullWidth
+                  label="Descrição"
+                  name="description"
+                  onChange={handleChange}
+                  required
+                  value={localStorageData.description}
+                  variant="outlined"
+                  sx={{ minHeight: '3rem' }}
+                >
+                </TextField>
+              )}
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2
-          }}
-        >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
           <Button
             color="primary"
             variant="contained"
+            onClick={handleSaveChanges}
           >
-            Savar mudanças
+            Salvar mudanças
           </Button>
         </Box>
       </Card>
