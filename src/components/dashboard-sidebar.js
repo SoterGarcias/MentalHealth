@@ -122,7 +122,7 @@ export const DashboardSidebar = (props) => {
           }}
         >
           <Typography sx={{ textAlign: "inherit" }} color="neutral.500" variant="body2">
-            Powered by Subash © 2022. V 1.1
+          
           </Typography>
           <Box
             sx={{

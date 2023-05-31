@@ -36,12 +36,12 @@ export const Contato_psicologo = (props) => (
                     Ligações
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="subtitle1">
-                  Ligue diretamente para o seu médico.
+                    Ligue diretamente para o seu médico.
                   </Typography>
                 </Grid>
               </Grid>
-            </CardContent>
-          }
+            </Grid>
+          </CardContent>
         </Card>
       </Box>
     </Grid>
@@ -57,8 +57,8 @@ export const Contato_psicologo = (props) => (
         }}
       >
         <Card sx={{ height: "100%" }} {...props}>
-          {
-            <CardContent>
+          <CardContent>
+            <Grid container spacing={3} alignItems="center">
               <Grid item>
                 <Avatar
                   sx={{
@@ -76,15 +76,15 @@ export const Contato_psicologo = (props) => (
               <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
                 <Grid item>
                   <Typography color="textPrimary" variant="h6">
-                  Mensagens
+                    Mensagens
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="subtitle1">
-                  Converse comigo, compartilhe seus sentimentos.
+                    Converse comigo, compartilhe seus sentimentos.
                   </Typography>
                 </Grid>
               </Grid>
-            </CardContent>
-          }
+            </Grid>
+          </CardContent>
         </Card>
       </Box>
     </Grid>
@@ -101,9 +101,9 @@ export const Contato_psicologo = (props) => (
         }}
       >
         <Card sx={{ height: "100%", backgroundColor: "transparent" }} {...props}>
-          {
-            <CardContent>
-              <Grid container spacing={3} alignItems="center">
+          <CardContent>
+            <Grid container spacing={3} alignItems="center">
+              <Grid item>
                 <Avatar
                   sx={{
                     backgroundColor: "#F2E6A7",
@@ -120,15 +120,15 @@ export const Contato_psicologo = (props) => (
               <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
                 <Grid item>
                   <Typography color="textPrimary" variant="h6">
-                  Vídeo chamadas 
+                    Vídeo chamadas
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="subtitle1">
-                  Consulte seu psicólogo(a) ao vivo
+                    Consulte seu psicólogo(a) ao vivo
                   </Typography>
                 </Grid>
               </Grid>
-            </CardContent>
-          }
+            </Grid>
+          </CardContent>
         </Card>
       </Box>
     </Grid>
