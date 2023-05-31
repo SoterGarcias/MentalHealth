@@ -5,8 +5,15 @@ import { ProductListToolbar } from '../components/psicologos/product-list-toolba
 import { ProductCard } from '../components/psicologos/product-card';
 import { DashboardLayout } from '../components/dashboard-layout';
 import Link from 'next/link';
+import { useRouter } from "next/router";
 
-const Page = () => (
+console.log("Verifying Page component"); // Adicione esta linha
+const Page = () => {
+  console.log("Inside Page component"); // Adicione esta linha
+  const router = useRouter();
+  console.log("Router initialized", router); // Adicione esta linha
+
+return (
   <>
     <Head>
       <title>Psicólogos | Mental Health</title>
@@ -19,19 +26,20 @@ const Page = () => (
       }}
     >
       <Container maxWidth={false}>
-        <ProductListToolbar />
-        <Box sx={{ pt: 3 }}>
-          <Grid container 
-          spacing={3}>
-            {products.map((product) => (
-              <Link key={product.id} 
-              href={`/psicologos/${product.id}`}>
-                <Grid item 
-                key={product.id} 
-                lg={4} 
-                md={4}
-                sm={6} 
-                xs={12}>
+        <ProductListToolbar/>
+       
+        <Box sx={{ p: 3 }}>
+          <Grid container
+            spacing={3}>
+            {/* {products.map((product) => ( */}
+              <Link key={productId}
+                href={`/psicologos/${productId}`}>
+                <Grid item
+                  key={product.id}
+                  lg={4}
+                  md={4}
+                  sm={6}
+                  xs={12}>
                   <ProductCard product={product} />
                 </Grid>
               </Link>
@@ -45,14 +53,15 @@ const Page = () => (
             pt: 3,
           }}
         >
-          <Pagination color="primary" 
-          count={3} 
-          size="small" />
+          <Pagination color="primary"
+            count={3}
+            size="small" />
         </Box>
       </Container>
     </Box>
   </>
 );
+};
 
 Page.getLayout = (page) => (
   <DashboardLayout>

@@ -33,10 +33,10 @@ export const Contato_psicologo = (props) => (
               <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
                 <Grid item>
                   <Typography color="textPrimary" variant="h4">
-                    4.5
+                    Ligações
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="overline">
-                    Estrelas
+                  Ligue diretamente para o seu médico.
                   </Typography>
                 </Grid>
               </Grid>
@@ -76,10 +76,10 @@ export const Contato_psicologo = (props) => (
               <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
                 <Grid item>
                   <Typography color="textPrimary" variant="h4">
-                    10 Anos
+                  Mensagens
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="overline">
-                    Tempo de Formação
+                  Converse comigo, compartilhe seus sentimentos.
                   </Typography>
                 </Grid>
               </Grid>
@@ -119,10 +119,10 @@ export const Contato_psicologo = (props) => (
               <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
                 <Grid item>
                   <Typography color="textPrimary" variant="h4">
-                    1000+
+                  Vídeo chamadas 
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="overline">
-                    Atendimentos Realizados
+                  Consulte seu psicólogo(a) ao vivo
                   </Typography>
                 </Grid>
               </Grid>

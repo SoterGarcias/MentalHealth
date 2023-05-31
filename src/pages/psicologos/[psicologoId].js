@@ -11,8 +11,12 @@ const Psicologo = () => {
   const router = useRouter();
   const { psicologoId } = router.query;
 
+  console.log("psicologoId:", psicologoId);
+
   const filtered = psicologos.filter((product) => product.id == psicologoId);
+  console.log(filtered);
   const psicologo = filtered.length ? filtered[0] : undefined;
+  console.log("psicologo:", psicologo);
 
   return (
     <>
@@ -24,7 +28,7 @@ const Psicologo = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          py: 1,
           backgroundColor: "#EDEDED",
         }}
       >
@@ -33,10 +37,10 @@ const Psicologo = () => {
             <Grid container spacing={3}>
               <section>
                 {psicologo ? (
-                  <div>
+                  <div className="profile-section">
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <img
-                        src={psicologo.media}
+                        src={psicologo.profileImageUrl}
                         alt=""
                         width={150}
                         height={150}
