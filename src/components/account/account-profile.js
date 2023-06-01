@@ -7,7 +7,8 @@ import {
   CardActions,
   CardContent,
   Divider,
-  Typography
+  Typography,
+  Snackbar
 } from '@mui/material';
 import { handleImageUpload } from '../../lib/firebase';
 
@@ -16,6 +17,7 @@ const AccountProfile = (props) => {
   const [defaultAvatar, setDefaultAvatar] = useState('/static/images/avatars/perfilGeral.png');
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [file, setFile] = useState(null); // Adicionada a variável "file" ao estado do componente
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false); // Estado para controlar a exibição da mensagem de sucesso
   const userData = localStorage.getItem('userData');
   const user = JSON.parse(userData) || {
     avatar: '/static/images/avatars/perfilGeral.png',
@@ -39,7 +41,7 @@ const AccountProfile = (props) => {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-      setAvatar(e.target.result);
+      setAvatarUrl(e.target.result);
     };
 
     if (file) {
@@ -53,7 +55,13 @@ const AccountProfile = (props) => {
   const handleSaveButtonClick = () => {
     const userId = user.id; // Substitua "userId" pelo nome da chave do usuário no localStorage
     handleImageUpload(userId, file); // Chama a função para fazer o upload da imagem para o Firebase
+    setSuccessMessageOpen(true); // Atualiza o estado para exibir a mensagem de sucesso
   };
+
+  const handleSuccessMessageClose = () => {
+    setSuccessMessageOpen(false); // Fecha a mensagem de sucesso
+  };
+
 
   return (
     <Card {...props}>
@@ -115,6 +123,12 @@ const AccountProfile = (props) => {
           </Button>
         )}
       </CardActions>
+      <Snackbar
+        open={successMessageOpen}
+        autoHideDuration={3000}
+        onClose={handleSuccessMessageClose}
+        message="Foto salva com sucesso!"
+      />
     </Card>
   );
 };
