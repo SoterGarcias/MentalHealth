@@ -76,11 +76,7 @@ export const ProductCard = () => {
                     {item.description}
                   </Typography>
                 </Grid>
-                <Grid item sx={{ display: 'flex' }}>
-                  <Button variant="contained" color="primary" onClick={() => handleBooking(item.id)}>
-                    Agendar
-                  </Button>
-                </Grid>
+                
               </Grid>
             </CardContent>
             <Box sx={{ flexGrow: 1 }} />
