@@ -1,22 +1,49 @@
-/* eslint-disable react/jsx-max-props-per-line */
 import { Box, Container, Grid, Button } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { DashboardLayout } from "../../components/dashboard-layout";
-import { psicologos } from "../../__mocks__/products";
 import { Budget } from "./dashboard/budget";
 import { Contato_psicologo } from "./dashboard/contato_psicologo";
+import { getFirestore, collection, doc, getDoc } from 'firebase/firestore/lite';
+import { useState, useEffect } from "react";
+
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from "../../lib/firebase"; // Import your Firebase config
 
 const Psicologo = () => {
   const router = useRouter();
   const { psicologoId } = router.query;
 
-  console.log("psicologoId:", psicologoId);
+  const [psicologo, setPsicologo] = useState(null);
 
-  const filtered = psicologos.filter((product) => product.id == psicologoId);
-  console.log(filtered);
-  const psicologo = filtered.length ? filtered[0] : undefined;
-  console.log("psicologo:", psicologo);
+  useEffect(() => {
+    const fetchPsicologoData = async () => {
+      try {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+  
+        const psicologoRef = doc(db, 'psicologos', psicologoId);
+        console.log('psicologoRef:', psicologoRef);
+  
+        const psicologoSnap = await getDoc(psicologoRef);
+        console.log('psicologoSnap:', psicologoSnap);
+  
+        if (psicologoSnap.exists()) {
+          const psicologoData = { id: psicologoId, ...psicologoSnap.data() };
+          console.log('psicologoData:', psicologoData);
+          setPsicologo(psicologoData);
+        } else {
+          console.log("Psicólogo não encontrado!");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados do psicólogo:", error);
+      }
+    };
+
+    if (psicologoId) {
+      fetchPsicologoData();
+    }
+  }, [psicologoId]);
 
   return (
     <>
