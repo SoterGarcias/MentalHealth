@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { getDocs } from 'firebase/firestore/lite';
 
-
 export const products = [
   {
     id: '96ca9009-e91d-41fb-96f1-e214e490ed19',
