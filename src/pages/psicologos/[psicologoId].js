@@ -13,16 +13,17 @@ import { firebaseConfig } from "../../lib/firebase"; // Import your Firebase con
 const Psicologo = () => {
   const router = useRouter();
   const { psicologoId } = router.query;
-
+  console.log(psicologoId)
   const [psicologo, setPsicologo] = useState(null);
 
+  console.log("Iniciando useEffect");
   useEffect(() => {
     const fetchPsicologoData = async () => {
       try {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
   
-        const psicologoRef = doc(db, 'psicologos', psicologoId);
+        const psicologoRef = doc(collection(db, 'psicologos'), psicologoId);
         console.log('psicologoRef:', psicologoRef);
   
         const psicologoSnap = await getDoc(psicologoRef);
@@ -74,7 +75,7 @@ const Psicologo = () => {
                         style={{ borderRadius: "50%" }}
                       />
                       <div style={{ marginLeft: "10px" }}>
-                        <h2>{psicologo.title}</h2>
+                        <h2>{psicologo.firstName}</h2>
                         <p>Psicologo(a)</p>
                       </div>
                       <div style={{ marginLeft: "auto" }}>
