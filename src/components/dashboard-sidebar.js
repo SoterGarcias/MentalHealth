@@ -54,6 +54,11 @@ const items = [
     title: "Register",
   },
   {
+    href: "/agendamento",
+    icon: <UserAddIcon fontSize="small" />,
+    title: "Agendamentos",
+  },
+  {
     href: "/404",
     icon: <XCircleIcon fontSize="small" />,
     title: "Error",
@@ -94,12 +99,12 @@ export const DashboardSidebar = (props) => {
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <Box sx={{ p: 1.5 }}>
             <Link href="/" passHref>
-                <Logo
-                  sx={{
-                    height: 84,
-                    width: 84,
-                  }}
-                />
+              <Logo
+                sx={{
+                  height: 84,
+                  width: 84,
+                }}
+              />
             </Link>
           </Box>
         </div>
@@ -122,7 +127,7 @@ export const DashboardSidebar = (props) => {
           }}
         >
           <Typography sx={{ textAlign: "inherit" }} color="neutral.500" variant="body2">
-          
+
           </Typography>
           <Box
             sx={{
