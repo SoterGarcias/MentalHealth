@@ -31,7 +31,7 @@ export default function ProfileDetails(props) {
       const parsedUserData = JSON.parse(storedUserData);
       setLocalStorageData(parsedUserData);
     }
-  }, []);
+  }, [localStorage]);
 
   const handleChange = (event) => {
     setLocalStorageData({

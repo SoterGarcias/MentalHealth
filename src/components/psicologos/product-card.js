@@ -29,7 +29,7 @@ export const ProductCard = () => {
     };
   
     fetchProduct();
-  }, []);
+  }, [productRef]);
 
   if (loading) {
     return <Typography align="center">Carregando...</Typography>;

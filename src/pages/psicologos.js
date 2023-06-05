@@ -58,20 +58,13 @@ const Psicologos = () => {
 
           <Box sx={{ p: 3 }}>
             <Grid container spacing={3}>
-              {product?.map((product) => (
-                <Link key={product.id} href={`/psicologos/${product.id}`}>
-                  <Grid
-                    item
-                    key={product.id}
-                    lg={4}
-                    md={4}
-                    sm={6}
-                    xs={12}
-                  >
-                    <ProductCard product={product} id={product.id} />
-                  </Grid>
-                </Link>
-              ))}
+            {product?.map((productItem) => (
+  <Link key={productItem.id} href={`/psicologos/${productItem.id}`}>
+    <Grid item lg={4} md={4} sm={6} xs={12}>
+      <ProductCard product={productItem} id={productItem.id} />
+    </Grid>
+  </Link>
+))}
             </Grid>
           </Box>
           <Box

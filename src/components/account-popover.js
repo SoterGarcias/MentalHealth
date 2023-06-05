@@ -13,7 +13,7 @@ export const AccountPopover = (props) => {
       const userData = JSON.parse(storedUserData);
       setUserName(userData.firstName);
     }
-  }, []);
+  }, [localStorage]);
 
   const handleSignOut = async () => {
     onClose?.();

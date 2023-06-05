@@ -34,7 +34,7 @@ const AccountProfile = (props) => {
       setAvatarUrl(profileImageUrl);
       setShowSaveButton(true);
     }
-  }, []);
+  }, [localStorage]);
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];

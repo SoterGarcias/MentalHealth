@@ -25,7 +25,7 @@ function ChatComponent() {
       // Limpar recursos ao desmontar o componente.
       socket.disconnect();
     };
-  }, []);
+  }, [window.location.pathname]);
 
   // Função para atualizar as mensagens na tela.
   function updateMessagesOnScreen(messages) {

@@ -15,7 +15,7 @@ export const Sales = (props) => {
       setPsiUrl(userData.psi_Url);
       setPsiFirstName(userData.psi_firstName);
     }
-  }, []);
+  }, [localStorage]);
 
 
   return (
