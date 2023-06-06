@@ -15,14 +15,14 @@ console.log("Verifying Page component"); // Adicione esta linha
 const Psicologos = () => {
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null); // Adicione esta linha
-  
+
   useEffect(() => {
     console.log('Iniciando busca do produto...');
     const fetchProduct = async () => {
       try {
         const productRef = collection(db, 'psicologos');
         const querySnapshot = await getDocs(productRef);
-    
+
         const productsData = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           data.id = doc.id;
@@ -33,10 +33,10 @@ const Psicologos = () => {
         setError('Erro ao buscar os produtos.');
       }
     };
-  
+
     fetchProduct();
   }, []);
-  
+
   console.log("Inside Page component"); // Adicione esta linha
   const router = useRouter();
   console.log("Router initialized", router); // Adicione esta linha
@@ -58,13 +58,15 @@ const Psicologos = () => {
 
           <Box sx={{ p: 3 }}>
             <Grid container spacing={3}>
-            {product?.map((productItem) => (
-  <Link key={productItem.id} href={`/psicologos/${productItem.id}`}>
-    <Grid item lg={4} md={4} sm={6} xs={12}>
-      <ProductCard product={productItem} id={productItem.id} />
-    </Grid>
-  </Link>
-))}
+              {product?.map((productItem) => {
+                console.log('Product Item:', productItem);
+                return (
+                  <Link key={productItem.id} href={`/psicologos/${productItem.id}`}>
+                    <Grid item lg={4} md={4} sm={6} xs={12}>
+                      <ProductCard product={productItem} id={productItem.id} />
+                    </Grid>
+                  </Link>);
+              })}
             </Grid>
           </Box>
           <Box

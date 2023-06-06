@@ -1,104 +1,69 @@
-import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
-import { useState, useEffect } from 'react';
+import Head from 'next/head';
+import { Box, Container, Grid, Pagination, Typography } from '@mui/material';
 import { getDocs, collection } from 'firebase/firestore/lite';
 import { db } from '../../lib/firebase';
+import { useState, useEffect } from 'react';
+import { ProductCard } from '../../components/psicologos/product-card';
+import { DashboardLayout } from '../../components/dashboard-layout';
+import Link from 'next/link';
 
-export const ProductCard = () => {
-  const [product, setProduct] = useState(null);
+const Psicologos = () => {
+  const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('Iniciando busca do produto...');
-    const fetchProduct = async () => {
+    const fetchProducts = async () => {
       try {
         const productRef = collection(db, 'psicologos');
-        console.log('Referência do produto:', productRef);
         const querySnapshot = await getDocs(productRef);
-        console.log('Snapshot do produto:', querySnapshot);
-    
-        const productsData = querySnapshot.docs.map((doc) => doc.data());
-        console.log('Dados dos produtos:', productsData);
+        const productsData = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          data.id = doc.id;
+          return data;
+        });
         setProduct(productsData);
+        setLoading(false);
       } catch (error) {
         setError('Erro ao buscar os produtos.');
-        console.log('Erro ao buscar os produtos:', error);
-      } finally {
         setLoading(false);
       }
     };
-  
-    fetchProduct();
-  }, [productRef]);
 
-  if (loading) {
-    return <Typography align="center">Carregando...</Typography>;
-  }
-
-  if (error) {
-    return <Typography align="center" color="error">{error}</Typography>;
-  }
-
-  if (!product) {
-    return null;
-  }
-
-  const handleBooking = (productId) => {
-    console.log(`Agendar produto ${productId}`);
-  };
+    fetchProducts();
+  }, []);
 
   return (
     <>
-      {product.map((item) => {
-        if (item.typeUser === '') {
-          return null;
-        }
-  
-        return (
-          <Card
-            key={item.id}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%'
-            }}
-          >
-            <CardContent sx={{ cursor: 'pointer' }}>
-              <Grid container alignItems="center" spacing={2}>
-                <Grid item>
-                  <Avatar alt="Product" variant="square" />
-                </Grid>
-                <Grid item xs style={{ width: '500px' }}>
-                  <Typography align="center" color="textPrimary" gutterBottom variant="h5">
-                    {item.title}
-                  </Typography>
-                  <Typography align="center" color="textPrimary" variant="body1">
-                    {item.description}
-                  </Typography>
-                </Grid>
-                
-              </Grid>
-            </CardContent>
-            <Box sx={{ flexGrow: 1 }} />
-            <Divider />
-            <Box sx={{ p: 2 }}>
-              <Grid container spacing={2} sx={{ justifyContent: 'space-between' }}>
-                <Grid item sx={{ alignItems: 'center', display: 'flex' }}>
-                  <Typography
-                    color="textSecondary"
-                    display="inline"
-                    sx={{
-                      alignItems: 'center',
-                      pl: 1
-                    }}
-                    variant="body2"
-                  ></Typography>
-                </Grid>
-              </Grid>
-            </Box>
-          </Card>
-        );
-      })}
+      <Head>
+        <title>Psicólogos | Mental Health</title>
+      </Head>
+      <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
+        <Container maxWidth={false}>
+          <Typography align="center" variant="h5">
+            {loading ? 'Carregando...' : error ? 'Erro ao buscar os produtos.' : 'Psicólogos'}
+          </Typography>
+
+          <Box sx={{ p: 3 }}>
+            <Grid container spacing={3}>
+              {product.map((productItem) => (
+                <Link key={productItem.id} href={`/psicologos/${productItem.id}`}>
+                  <Grid item lg={4} md={4} sm={6} xs={12}>
+                    <ProductCard product={productItem} />
+                  </Grid>
+                </Link>
+              ))}
+            </Grid>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
+            <Pagination color="primary" count={3} size="small" />
+          </Box>
+        </Container>
+      </Box>
     </>
   );
 };
+
+Psicologos.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default Psicologos;
