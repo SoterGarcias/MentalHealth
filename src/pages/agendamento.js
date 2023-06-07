@@ -11,6 +11,13 @@ const Agendamento = () => {
   const [Id, setPsiId] = useState('');
   const [firstName, setfirstName] = useState('');
   const [psi_firstName, setpsi_firstName] = useState('');
+  const [time, setTime] = useState('')
+
+  const changeTime = (e) => {
+    console.log(e.target.value)
+    setTime(`${e.target.value.split(':')[0]}:00`)
+    formik.handleChange(e)
+  }
 
   useEffect(() => {
     //pega do localStorage os campos para preencher na colecao
@@ -32,7 +39,7 @@ const Agendamento = () => {
       psicologo: psi_firstName,
       psi_Id: Id,
       diaagendamento: '',
-      horaagendamento: '',
+      horaagendamento: time,
       duracaoagendamento: 1,
       descricao: '',
       avaliacao: '',
@@ -47,7 +54,7 @@ const Agendamento = () => {
       }
     },
   });
-
+  // console.log(JSON.parse(localStorage.getItem('userData')))
   return (
     <>
       <Head>
@@ -71,8 +78,8 @@ const Agendamento = () => {
 
               <Typography color="textSecondary" gutterBottom variant="body2">
                 Solicitação de um Agendamento <br />
-                Colaborador: FULANO DE TAL (Nome do Funcionário LOGADO) <br />
-                Psicólogo: Dr. Ciclano Beltrano (Nome do Psicólogo CLICADO) <br />
+                Colaborador: {JSON.parse(localStorage.getItem('userData')).firstName} <br />
+                Psicólogo: {JSON.parse(localStorage.getItem('userData')).psi_firstName} <br />
               </Typography>
             </Box>
 
@@ -104,8 +111,8 @@ const Agendamento = () => {
                 min: '09:00', // Hora de início mínima
                 max: '18:00', // Hora de fim máxima
               }}
-              onChange={formik.handleChange}
-              value={formik.values.horaagendamento}
+              onChange={changeTime}
+              value={time}
             />
 
             <TextField
