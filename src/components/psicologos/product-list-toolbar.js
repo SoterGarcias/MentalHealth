@@ -13,7 +13,7 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { useState } from 'react';
 
-export const ProductListToolbar = ({ products, setSearchResults, ...props }) => {
+const ProductListToolbar = ({ products, setSearchResults, ...props }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
@@ -62,3 +62,4 @@ export const ProductListToolbar = ({ products, setSearchResults, ...props }) => 
     </Box>
   );
 };
+export default ProductListToolbar;
