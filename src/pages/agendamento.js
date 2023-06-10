@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, TextField, Typography, Snackbar } from '@mui/material';
 import { useFormik } from 'formik';
 import { collection, addDoc } from 'firebase/firestore/lite';
 import { db } from '../lib/firebase';
@@ -11,16 +11,18 @@ const Agendamento = () => {
   const [Id, setPsiId] = useState('');
   const [firstName, setfirstName] = useState('');
   const [psi_firstName, setpsi_firstName] = useState('');
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState('');
+  const [agendamentoSuccess, setAgendamentoSuccess] = useState(false);
+
 
   const changeTime = (e) => {
-    console.log(e.target.value)
-    setTime(`${e.target.value.split(':')[0]}:00`)
-    formik.handleChange(e)
-  }
+    console.log(e.target.value);
+    setTime(`${e.target.value.split(':')[0]}:00`);
+    formik.handleChange(e);
+  };
 
   useEffect(() => {
-    //pega do localStorage os campos para preencher na colecao
+    // Pega do localStorage os campos para preencher na coleção
     const storedPctId = localStorage.getItem('pct_Id');
     const storedpsi_firstName = localStorage.getItem('psi_firstName');
     const storedPsiId = localStorage.getItem('Id');
@@ -48,13 +50,14 @@ const Agendamento = () => {
       try {
         await addDoc(collection(db, 'agendamentos'), values);
         console.log('Agendamento inserido com sucesso');
-        Router.push('/'); // Redirecionamento para a página de login
+        setAgendamentoSuccess(true);
+        Router.push('/agendamentospage'); // Redirecionamento para a página de agendamento
       } catch (error) {
         console.log('Erro ao inserir Agendamento:', error);
       }
     },
   });
-  // console.log(JSON.parse(localStorage.getItem('userData')))
+
   return (
     <>
       <Head>
@@ -117,10 +120,10 @@ const Agendamento = () => {
 
             <TextField
               fullWidth
-              label="Duracação Horas"
+              label="Duração em Horas"
               type="number"
               margin="normal"
-              name="duracao"
+              name="duracaoagendamento"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.duracaoagendamento}
@@ -150,6 +153,17 @@ const Agendamento = () => {
                 Realizar Agendamento
               </Button>
             </Box>
+
+            {agendamentoSuccess && (
+              <Typography color="textPrimary" variant="body1">
+                Agendamento realizado com sucesso!
+              </Typography>
+            )}
+            <Snackbar
+              open={agendamentoSuccess}
+              autoHideDuration={3000}
+              message="Agendamento realizado com sucesso!!!"
+            />
           </form>
         </Container>
       </Box>

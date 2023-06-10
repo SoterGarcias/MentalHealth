@@ -59,6 +59,11 @@ const items = [
     title: "Agendamentos",
   },
   {
+    href: "/agendamentospage",
+    icon: <UserAddIcon fontSize="small" />,
+    title: "Listar Agendamentos",
+  },
+  {
     href: "/404",
     icon: <XCircleIcon fontSize="small" />,
     title: "Error",
