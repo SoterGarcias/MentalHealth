@@ -1,69 +1,94 @@
-import Head from 'next/head';
-import { Box, Container, Grid, Pagination, Typography } from '@mui/material';
-import { getDocs, collection } from 'firebase/firestore/lite';
-import { db } from '../../lib/firebase';
-import { useState, useEffect } from 'react';
-import { ProductCard } from '../../components/psicologos/product-card';
-import { DashboardLayout } from '../../components/dashboard-layout';
-import Link from 'next/link';
+import PropTypes from 'prop-types';
+import { Avatar, Box, Card, CardContent, Divider, Stack, SvgIcon, Typography } from '@mui/material';
 
-const Psicologos = () => {
-  const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productRef = collection(db, 'psicologos');
-        const querySnapshot = await getDocs(productRef);
-        const productsData = querySnapshot.docs.map((doc) => {
-          const data = doc.data();
-          data.id = doc.id;
-          return data;
-        });
-        setProduct(productsData);
-        setLoading(false);
-      } catch (error) {
-        setError('Erro ao buscar os produtos.');
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+export const PsicologoCard = (props) => {
+  const { psicologo } = props;
 
   return (
-    <>
-      <Head>
-        <title>Psicólogos | Mental Health</title>
-      </Head>
-      <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
-        <Container maxWidth={false}>
-          <Typography align="center" variant="h5">
-            {loading ? 'Carregando...' : error ? 'Erro ao buscar os produtos.' : 'Psicólogos'}
+    <Card
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%'
+      }}
+    >
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            pb: 3
+          }}
+        >
+          <Avatar
+            src={psicologo.logo}
+            variant="square"
+          />
+        </Box>
+        <Typography
+          align="center"
+          gutterBottom
+          variant="h5"
+        >
+          {psicologo.title}
+        </Typography>
+        <Typography
+          align="center"
+          variant="body1"
+        >
+          {psicologo.description}
+        </Typography>
+      </CardContent>
+      <Box sx={{ flexGrow: 1 }} />
+      <Divider />
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        spacing={2}
+        sx={{ p: 2 }}
+      >
+        <Stack
+          alignItems="center"
+          direction="row"
+          spacing={1}
+        >
+          <SvgIcon
+            color="action"
+            fontSize="small"
+          >
+            
+          </SvgIcon>
+          <Typography
+            color="text.secondary"
+            display="inline"
+            variant="body2"
+          >
+            Updated 2hr ago
           </Typography>
-
-          <Box sx={{ p: 3 }}>
-            <Grid container spacing={3}>
-              {product.map((productItem) => (
-                <Link key={productItem.id} href={`/psicologos/${productItem.id}`}>
-                  <Grid item lg={4} md={4} sm={6} xs={12}>
-                    <ProductCard product={productItem} />
-                  </Grid>
-                </Link>
-              ))}
-            </Grid>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
-            <Pagination color="primary" count={3} size="small" />
-          </Box>
-        </Container>
-      </Box>
-    </>
+        </Stack>
+        <Stack
+          alignItems="center"
+          direction="row"
+          spacing={1}
+        >
+          <SvgIcon
+            color="action"
+            fontSize="small"
+          >
+           
+          </SvgIcon>
+          <Typography
+            color="text.secondary"
+            display="inline"
+            variant="body2"
+          >
+            {psicologo.downloads} Downloads
+          </Typography>
+        </Stack>
+      </Stack>
+    </Card>
   );
 };
 
-Psicologos.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
-
-export default Psicologos;
+export default PsicologoCard;

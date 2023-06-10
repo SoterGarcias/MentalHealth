@@ -1,45 +1,45 @@
-import Head from 'next/head';
-import { Box, Container, Grid, Pagination } from '@mui/material';
-import { products } from '../__mocks__/products';
-import { ProductListToolbar } from '../components/psicologos/product-list-toolbar';
-import { ProductCard } from '../components/psicologos/product-card';
-import { DashboardLayout } from '../components/dashboard-layout';
-import Link from 'next/link';
+import Head from "next/head";
+import { Box, Container, Grid, Pagination } from "@mui/material";
+import { ProductListToolbar } from "../components/psicologos/product-list-toolbar";
+import { ProductCard } from "../components/psicologos/product-card";
+import { DashboardLayout } from "../components/dashboard-layout";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { getDocs, collection } from 'firebase/firestore/lite';
-import { db } from '../lib/firebase';
-import { useState, useEffect } from 'react';
+import { getDocs, collection } from "firebase/firestore/lite";
+import { db } from "../lib/firebase";
+import { useState, useEffect } from "react";
 
+console.log("Verifying Page component");
 
-console.log("Verifying Page component"); // Adicione esta linha
 const Psicologos = () => {
-  const [product, setProduct] = useState(null);
-  const [error, setError] = useState(null); // Adicione esta linha
+  const router = useRouter();
+  const [productsData, setProductsData] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('Iniciando busca do produto...');
-    const fetchProduct = async () => {
+    console.log("Iniciando busca dos produtos...");
+    const fetchProducts = async () => {
       try {
-        const productRef = collection(db, 'psicologos');
+        const productRef = collection(db, "psicologos");
         const querySnapshot = await getDocs(productRef);
 
         const productsData = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           data.id = doc.id;
+          console.log("data", data);
           return data;
         });
-        setProduct(productsData);
+        setProductsData(productsData);
       } catch (error) {
-        setError('Erro ao buscar os produtos.');
+        setError("Erro ao buscar os produtos.");
       }
     };
 
-    fetchProduct();
+    fetchProducts();
   }, []);
 
-  console.log("Inside Page component"); // Adicione esta linha
-  const router = useRouter();
-  console.log("Router initialized", router); // Adicione esta linha
+  console.log("Inside Page component");
+  console.log("Router initialized", router);
 
   return (
     <>
@@ -58,15 +58,13 @@ const Psicologos = () => {
 
           <Box sx={{ p: 3 }}>
             <Grid container spacing={3}>
-              {product?.map((productItem) => {
-                console.log('Product Item:', productItem);
-                return (
-                  <Link key={productItem.id} href={`/psicologos/${productItem.id}`}>
-                    <Grid item lg={4} md={4} sm={6} xs={12}>
-                      <ProductCard product={productItem} id={productItem.id} />
-                    </Grid>
-                  </Link>);
-              })}
+              {productsData.map((product) => (
+                <Link key={product.id} href={`/psicologos/${product.id}`}>
+                  <Grid item lg={4} md={4} sm={6} xs={12}>
+                    <ProductCard product={product} id={product.id} />
+                  </Grid>
+                </Link>
+              ))}
             </Grid>
           </Box>
           <Box
