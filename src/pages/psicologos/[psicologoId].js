@@ -4,40 +4,33 @@ import { useRouter } from "next/router";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { Budget } from "./dashboard/budget";
 import { Contato_psicologo } from "./dashboard/contato_psicologo";
-import { getFirestore, collection, doc, getDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, doc, getDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
 
-import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from "../../lib/firebase"; // Import your Firebase config
+const db = getFirestore();
 
 const Psicologo = () => {
   const router = useRouter();
   const { psicologoId } = router.query;
-  console.log(psicologoId)
   const [psicologo, setPsicologo] = useState(null);
 
-  console.log("Iniciando useEffect");
   useEffect(() => {
     const fetchPsicologoData = async () => {
       try {
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-  
-        const psicologoRef = doc(collection(db, 'psicologos'), psicologoId);
-        console.log('psicologoRef:', psicologoRef);
-  
+        const psicologoRef = doc(collection(db, "psicologos"), psicologoId);
         const psicologoSnap = await getDoc(psicologoRef);
-        console.log('psicologoSnap:', psicologoSnap);
-  
+
+        console.log(psicologoSnap);
+
         if (psicologoSnap.exists()) {
           const psicologoData = { id: psicologoId, ...psicologoSnap.data() };
-          console.log('psicologoData:', psicologoData);
+          console.log(psicologoData);
           setPsicologo(psicologoData);
         } else {
           console.log("Psicólogo não encontrado!");
         }
       } catch (error) {
-        console.error("Erro ao buscar dados do psicólogo:", error);
+        console.error("Erro ao buscar dados do psicologo:", error);
       }
     };
 
@@ -45,6 +38,8 @@ const Psicologo = () => {
       fetchPsicologoData();
     }
   }, [psicologoId]);
+
+  console.log(psicologo, psicologoId);
 
   return (
     <>
@@ -79,7 +74,7 @@ const Psicologo = () => {
                         <p>Psicologo(a)</p>
                       </div>
                       <div style={{ marginLeft: "auto" }}>
-                        <Button variant="contained" color="primary" onClick={() => { }}>
+                        <Button variant="contained" color="primary" onClick={() => {}}>
                           Agendar uma consulta
                         </Button>
                       </div>
