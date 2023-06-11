@@ -9,8 +9,16 @@ import { AuthConsumer, AuthProvider } from "../contexts/auth-context";
 import { createEmotionCache } from "../utils/create-emotion-cache";
 import { registerChartJs } from "../utils/register-chart-js";
 import { theme } from "../theme";
+import { getApps, initializeApp } from "firebase/app";
+import { firebaseConfig } from "../lib/firebase";
 
 registerChartJs();
+
+// Initialize Firebase app
+if (!getApps().length) {
+  initializeApp(firebaseConfig);
+}
+
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -22,7 +30,7 @@ const App = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        
+
         <title>Material Kit Pro</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
