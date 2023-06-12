@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { collection, addDoc } from 'firebase/firestore/lite';
 import { db } from '../lib/firebase';
 import Router from 'next/router';
+import { DashboardLayout } from '../components/dashboard-layout';
 
 const Agendamento = () => {
   const [pct_Id, setPctId] = useState('');
@@ -13,7 +14,7 @@ const Agendamento = () => {
   const [psi_firstName, setpsi_firstName] = useState('');
   const [time, setTime] = useState('');
   const [agendamentoSuccess, setAgendamentoSuccess] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
 
   const changeTime = (e) => {
     console.log(e.target.value);
@@ -47,6 +48,35 @@ const Agendamento = () => {
       avaliacao: '',
     },
     onSubmit: async (values) => {
+      const today = new Date();
+      const selectedDate = new Date(values.diaagendamento);
+      const selectedTime = new Date(`2000-01-01T${values.horaagendamento}`);
+
+      if (selectedDate.getTime() < today.getTime()) {
+        setErrorMessage('Selecione uma data futura');
+        return;
+      }
+
+      if (!values.diaagendamento) {
+        setErrorMessage('Selecione uma data válida');
+        return;
+      }
+
+      if (!values.horaagendamento) {
+        setErrorMessage('Selecione uma hora válida');
+        return;
+      }
+
+      //if (selectedTime.getTime() < today.getTime()) {
+      //  setErrorMessage('Selecione uma hora futura');
+      //  return;
+      //}
+
+      if (!values.descricao) {
+        setErrorMessage('Digite uma descrição válida');
+        return;
+      }
+
       try {
         await addDoc(collection(db, 'agendamentos'), values);
         console.log('Agendamento inserido com sucesso');
@@ -58,28 +88,29 @@ const Agendamento = () => {
     },
   });
 
+  const handleCloseSnackbar = () => {
+    setErrorMessage('');
+  };
+
   return (
     <>
       <Head>
-        <title>Solicitação de um Agendamento | Mental Health</title>
+        <title>Solicitação de Agendamento | Mental Health</title>
       </Head>
       <Box
         component="main"
         sx={{
-          alignItems: 'center',
-          display: 'flex',
           flexGrow: 1,
-          minHeight: '100%',
+          py: 8,
         }}
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="lg">
+          <Typography sx={{ mb: 3 }} variant="h4">
+            Solicitação de Agendamento
+          </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography color="textPrimary" variant="h4">
-                Solicitação de um Agendamento
-              </Typography>
-
-              <Typography color="textSecondary" gutterBottom variant="body2">
+            <Box sx={{ mb: 3 }}>
+              <Typography color="textPrimary" variant="body2">
                 Solicitação de um Agendamento <br />
                 Colaborador: {JSON.parse(localStorage.getItem('userData')).firstName} <br />
                 Psicólogo: {JSON.parse(localStorage.getItem('userData')).psi_firstName} <br />
@@ -99,6 +130,8 @@ const Agendamento = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.diaagendamento}
+              error={formik.touched.diaagendamento && formik.errors.diaagendamento}
+              helperText={formik.touched.diaagendamento && formik.errors.diaagendamento}
             />
 
             <TextField
@@ -116,6 +149,8 @@ const Agendamento = () => {
               }}
               onChange={changeTime}
               value={time}
+              error={formik.touched.horaagendamento && formik.errors.horaagendamento}
+              helperText={formik.touched.horaagendamento && formik.errors.horaagendamento}
             />
 
             <TextField
@@ -139,6 +174,8 @@ const Agendamento = () => {
               onChange={formik.handleChange}
               value={formik.values.descricao}
               variant="outlined"
+              error={formik.touched.descricao && formik.errors.descricao}
+              helperText={formik.touched.descricao && formik.errors.descricao}
             />
 
             <Box sx={{ py: 2 }}>
@@ -153,6 +190,13 @@ const Agendamento = () => {
                 Realizar Agendamento
               </Button>
             </Box>
+
+            <Snackbar
+              open={!!errorMessage}
+              autoHideDuration={3000}
+              onClose={handleCloseSnackbar}
+              message={errorMessage}
+            />
 
             {agendamentoSuccess && (
               <Typography color="textPrimary" variant="body1">
@@ -170,5 +214,7 @@ const Agendamento = () => {
     </>
   );
 };
+
+Agendamento.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Agendamento;
