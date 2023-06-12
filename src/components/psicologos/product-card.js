@@ -20,7 +20,7 @@ export const ProductCard = ({ product, ...rest }) => (
       >
         <Avatar
           alt="Product"
-          src={product.profileImageUrl}
+          // src={product.profileImageUrl} // para não ficar renderizando dempre as fotos 
           variant="square"
         />
       </Box>

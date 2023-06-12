@@ -14,6 +14,7 @@ const Psicologo = () => {
   const userPsicIdString = localStorage.getItem('userData');
   const userPsic = JSON.parse(userPsicIdString);
   const userPsicId = userPsic.psi_Id;
+  const userLocalID = userPsic.id;
   console.log("Valor em userPsicId:", userPsicId);
 
   const router = useRouter();
@@ -52,10 +53,13 @@ const Psicologo = () => {
       psi_firstName: psicologo.firstName,
       psi_Id: psicologo.id
     };
-  
+
+    console.log('Dados a serem salvos:', dataToSave);
+    console.log('ID onde os dados a serem salvos:', userLocalID);
+
     const psicologosRef = collection(db, 'psicologos');
-    const userRef = doc(psicologosRef, userPsicId);
-  
+    const userRef = doc(psicologosRef, userLocalID);
+
     try {
       await setDoc(userRef, dataToSave, { merge: true });
       console.log('Mudanças salvas com sucesso!');
@@ -63,7 +67,7 @@ const Psicologo = () => {
       console.error('Erro ao salvar as mudanças:', error);
     }
   };
-  
+
 
 
   console.log(psicologo, psicologoId);
@@ -84,7 +88,8 @@ const Psicologo = () => {
       >
         <Container maxWidth={false}>
           <Box sx={{ pt: 3 }}>
-            <Grid container spacing={3}>
+            <Grid container
+              spacing={3}>
               <section>
                 {psicologo ? (
                   <div className="profile-section">
@@ -103,14 +108,20 @@ const Psicologo = () => {
                       <div style={{ marginLeft: "auto" }}>
                         {userPsicId ? (
                           psicologo.id === userPsicId ? (
-                              <Button variant="contained" color="primary" onClick={() => { }}>
-                                Agendar uma consulta
-                              </Button>
-                             ) : (
-                              <Button variant="contained" color="primary" onClick={handleConsultationRequest}>
-                                Quero me consultar
-                              </Button>
-                            )
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => { }}>
+                              Agendar uma consulta
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={handleConsultationRequest}>
+                              Quero me consultar
+                            </Button>
+                          )
                         ) : (
                           <Button variant="contained" color="primary" onClick={handleConsultationRequest}>
                             Quero me consultar
