@@ -14,8 +14,8 @@ const Page = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const productsRef = collection(db, "psicologos"); // Referência à coleção 'products'
-        const querySnapshot = await getDocs(productsRef); // Obter todos os documentos da coleção 'products'
+        const productsRef = collection(db, "psicologos"); 
+        const querySnapshot = await getDocs(productsRef); 
         const products = [];
 
         querySnapshot.forEach((doc) => {

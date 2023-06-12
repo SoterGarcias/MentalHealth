@@ -4,12 +4,18 @@ import { useRouter } from "next/router";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { Budget } from "./dashboard/budget";
 import { Contato_psicologo } from "./dashboard/contato_psicologo";
-import { getFirestore, collection, doc, getDoc } from "firebase/firestore/lite";
+import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
+import { firebase } from "../../lib/firebase";
 
-const db = getFirestore();
+const db = getFirestore(firebase);
 
 const Psicologo = () => {
+  const userPsicIdString = localStorage.getItem('userData');
+  const userPsic = JSON.parse(userPsicIdString);
+  const userPsicId = userPsic.psi_Id;
+  console.log("Valor em userPsicId:", userPsicId);
+
   const router = useRouter();
   const { psicologoId } = router.query;
   const [psicologo, setPsicologo] = useState(null);
@@ -38,6 +44,27 @@ const Psicologo = () => {
       fetchPsicologoData();
     }
   }, [psicologoId]);
+
+
+  const handleConsultationRequest = async () => {
+    const dataToSave = {
+      psi_Url: psicologo.profileImageUrl,
+      psi_firstName: psicologo.firstName,
+      psi_Id: psicologo.id
+    };
+  
+    const psicologosRef = collection(db, 'psicologos');
+    const userRef = doc(psicologosRef, userPsicId);
+  
+    try {
+      await setDoc(userRef, dataToSave, { merge: true });
+      console.log('Mudanças salvas com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar as mudanças:', error);
+    }
+  };
+  
+
 
   console.log(psicologo, psicologoId);
 
@@ -74,9 +101,21 @@ const Psicologo = () => {
                         <p>Psicologo(a)</p>
                       </div>
                       <div style={{ marginLeft: "auto" }}>
-                        <Button variant="contained" color="primary" onClick={() => {}}>
-                          Agendar uma consulta
-                        </Button>
+                        {userPsicId ? (
+                          psicologo.id === userPsicId ? (
+                              <Button variant="contained" color="primary" onClick={() => { }}>
+                                Agendar uma consulta
+                              </Button>
+                             ) : (
+                              <Button variant="contained" color="primary" onClick={handleConsultationRequest}>
+                                Quero me consultar
+                              </Button>
+                            )
+                        ) : (
+                          <Button variant="contained" color="primary" onClick={handleConsultationRequest}>
+                            Quero me consultar
+                          </Button>
+                        )}
                       </div>
                     </div>
 
