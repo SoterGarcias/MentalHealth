@@ -4,40 +4,40 @@ import { useRouter } from "next/router";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import { Budget } from "./dashboard/budget";
 import { Contato_psicologo } from "./dashboard/contato_psicologo";
-import { getFirestore, collection, doc, getDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { useState, useEffect } from "react";
+import { firebase } from "../../lib/firebase";
 
-import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from "../../lib/firebase"; // Import your Firebase config
+const db = getFirestore(firebase);
 
 const Psicologo = () => {
+  const userPsicIdString = localStorage.getItem('userData');
+  const userPsic = JSON.parse(userPsicIdString);
+  const userPsicId = userPsic.psi_Id;
+  const userLocalID = userPsic.id;
+  console.log("Valor em userPsicId:", userPsicId);
+
   const router = useRouter();
   const { psicologoId } = router.query;
-  console.log(psicologoId)
   const [psicologo, setPsicologo] = useState(null);
 
-  console.log("Iniciando useEffect");
   useEffect(() => {
     const fetchPsicologoData = async () => {
       try {
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-  
-        const psicologoRef = doc(collection(db, 'psicologos'), psicologoId);
-        console.log('psicologoRef:', psicologoRef);
-  
+        const psicologoRef = doc(collection(db, "psicologos"), psicologoId);
         const psicologoSnap = await getDoc(psicologoRef);
-        console.log('psicologoSnap:', psicologoSnap);
-  
+
+        console.log(psicologoSnap);
+
         if (psicologoSnap.exists()) {
           const psicologoData = { id: psicologoId, ...psicologoSnap.data() };
-          console.log('psicologoData:', psicologoData);
+          console.log(psicologoData);
           setPsicologo(psicologoData);
         } else {
           console.log("Psicólogo não encontrado!");
         }
       } catch (error) {
-        console.error("Erro ao buscar dados do psicólogo:", error);
+        console.error("Erro ao buscar dados do psicologo:", error);
       }
     };
 
@@ -45,6 +45,32 @@ const Psicologo = () => {
       fetchPsicologoData();
     }
   }, [psicologoId]);
+
+
+  const handleConsultationRequest = async () => {
+    const dataToSave = {
+      psi_Url: psicologo.profileImageUrl,
+      psi_firstName: psicologo.firstName,
+      psi_Id: psicologo.id
+    };
+
+    console.log('Dados a serem salvos:', dataToSave);
+    console.log('ID onde os dados a serem salvos:', userLocalID);
+
+    const psicologosRef = collection(db, 'psicologos');
+    const userRef = doc(psicologosRef, userLocalID);
+
+    try {
+      await setDoc(userRef, dataToSave, { merge: true });
+      console.log('Mudanças salvas com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar as mudanças:', error);
+    }
+  };
+
+
+
+  console.log(psicologo, psicologoId);
 
   return (
     <>
@@ -62,7 +88,8 @@ const Psicologo = () => {
       >
         <Container maxWidth={false}>
           <Box sx={{ pt: 3 }}>
-            <Grid container spacing={3}>
+            <Grid container
+              spacing={3}>
               <section>
                 {psicologo ? (
                   <div className="profile-section">
@@ -79,9 +106,27 @@ const Psicologo = () => {
                         <p>Psicologo(a)</p>
                       </div>
                       <div style={{ marginLeft: "auto" }}>
-                        <Button variant="contained" color="primary" onClick={() => { }}>
-                          Agendar uma consulta
-                        </Button>
+                        {userPsicId ? (
+                          psicologo.id === userPsicId ? (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => { }}>
+                              Agendar uma consulta
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={handleConsultationRequest}>
+                              Quero me consultar
+                            </Button>
+                          )
+                        ) : (
+                          <Button variant="contained" color="primary" onClick={handleConsultationRequest}>
+                            Quero me consultar
+                          </Button>
+                        )}
                       </div>
                     </div>
 
