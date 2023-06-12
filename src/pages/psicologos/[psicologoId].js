@@ -20,6 +20,7 @@ const Psicologo = () => {
   const router = useRouter();
   const { psicologoId } = router.query;
   const [psicologo, setPsicologo] = useState(null);
+  const [userData, setUserData] = useState(userPsic); 
 
   useEffect(() => {
     const fetchPsicologoData = async () => {
@@ -63,7 +64,12 @@ const Psicologo = () => {
     try {
       await setDoc(userRef, dataToSave, { merge: true });
       console.log('Mudanças salvas com sucesso!');
-    } catch (error) {
+      const userDataString = localStorage.getItem('userData');
+      const userData = JSON.parse(userDataString);
+      const updatedData = { ...userData, ...dataToSave };
+      localStorage.setItem('userData', JSON.stringify(updatedData));
+      setPsicologo((prevState) => ({ ...prevState, ...dataToSave }));
+   } catch (error) {
       console.error('Erro ao salvar as mudanças:', error);
     }
   };
@@ -111,7 +117,9 @@ const Psicologo = () => {
                             <Button
                               variant="contained"
                               color="primary"
-                              onClick={() => { }}>
+                              onClick={() => { 
+                                router.push("/agendamento")
+                              }}>
                               Agendar uma consulta
                             </Button>
                           ) : (
