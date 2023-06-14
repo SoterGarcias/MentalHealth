@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Box, Button, Container, TextField, Typography, Snackbar } from '@mui/material';
 import { useFormik } from 'formik';
-import { collection, addDoc } from 'firebase/firestore/lite';
+import { collection, addDoc, getDocs, query, where, updateDoc } from 'firebase/firestore/lite';
 import { db } from '../lib/firebase';
 import Router from 'next/router';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 const Agendamento = () => {
-  const [pct_Id, setPctId] = useState('');
-  const [Id, setPsiId] = useState('');
+  const [pct_id, setPctId] = useState('');
+  const [id, setPsiId] = useState('');
   const [firstName, setfirstName] = useState('');
   const [psi_firstName, setpsi_firstName] = useState('');
   const [time, setTime] = useState('');
@@ -17,35 +17,41 @@ const Agendamento = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const changeTime = (e) => {
-    console.log(e.target.value);
-    setTime(`${e.target.value.split(':')[0]}:00`);
-    formik.handleChange(e);
+    const selectedHour = e.target.value.split(':')[0];
+    const selectedTime = `${selectedHour}:00`;
+    setTime(selectedTime);
+    console.log('Hora selecionada:', selectedTime);
+    formik.setFieldValue('horaagendamento', selectedTime); // Atualiza o valor do campo "horaagendamento" no formik
   };
 
   useEffect(() => {
     // Pega do localStorage os campos para preencher na coleção
-    const storedPctId = localStorage.getItem('pct_Id');
-    const storedpsi_firstName = localStorage.getItem('psi_firstName');
-    const storedPsiId = localStorage.getItem('Id');
-    const setfirstName = localStorage.getItem('firstName');
-
-    setPctId(storedPctId || '');
-    setPsiId(storedpsi_firstName || '');
-    setPctId(storedPsiId || '');
-    setPsiId(setfirstName || '');
+    const userData = JSON.parse(localStorage.getItem('userData'));
+  
+    setfirstName(userData.firstName || '');
+    setPctId(userData.id || '');
+    setPsiId(userData.psi_Id || '');
+    setpsi_firstName(userData.psi_firstName || '');
+  
+    // Atualiza os valores do formik com os dados do localStorage
+    formik.setValues({
+      ...formik.values,
+      pct_id: userData.id || '',
+      paciente: userData.firstName || '',
+      psicologo: userData.psi_firstName || '',
+      psi_Id: userData.psi_Id || ''
+    });
   }, []);
 
   const formik = useFormik({
     initialValues: {
-      pct_Id: pct_Id,
+      pct_id: pct_id,
       paciente: firstName,
       psicologo: psi_firstName,
-      psi_Id: Id,
       diaagendamento: '',
       horaagendamento: time,
       duracaoagendamento: 1,
       descricao: '',
-      avaliacao: '',
     },
     onSubmit: async (values) => {
       const today = new Date();
@@ -67,18 +73,35 @@ const Agendamento = () => {
         return;
       }
 
-      //if (selectedTime.getTime() < today.getTime()) {
-      //  setErrorMessage('Selecione uma hora futura');
-      //  return;
-      //}
-
       if (!values.descricao) {
         setErrorMessage('Digite uma descrição válida');
         return;
       }
-
+      
       try {
-        await addDoc(collection(db, 'agendamentos'), values);
+        const agendamentosRef = collection(db, 'agendamentos');
+        const q = query(agendamentosRef, where('diaagendamento', '==', values.diaagendamento));
+
+        const querySnapshot = await getDocs(q);
+        const agendamentos = [];
+        querySnapshot.forEach((doc) => {
+          agendamentos.push(doc.data());
+        });
+
+        console.log('Agendamentos existentes:', agendamentos);
+
+        const conflito = agendamentos.find(
+          (agendamento) =>
+            (agendamento.psi_Id === values.psi_Id || agendamento.pct_id === values.pct_id) &&
+            agendamento.horaagendamento === values.horaagendamento
+        );
+
+        if (conflito) {
+          setErrorMessage('Já existe um agendamento para o mesmo psicólogo/paciente nessa data e hora');
+          return;
+        }
+
+        await addDoc(agendamentosRef, values);
         console.log('Agendamento inserido com sucesso');
         setAgendamentoSuccess(true);
         Router.push('/agendamentospage'); // Redirecionamento para a página de agendamento
@@ -179,42 +202,31 @@ const Agendamento = () => {
             />
 
             <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                Realizar Agendamento
+              <Button color="primary" variant="contained" type="submit">
+                Solicitar Agendamento
               </Button>
             </Box>
-
-            <Snackbar
-              open={!!errorMessage}
-              autoHideDuration={3000}
-              onClose={handleCloseSnackbar}
-              message={errorMessage}
-            />
-
-            {agendamentoSuccess && (
-              <Typography color="textPrimary" variant="body1">
-                Agendamento realizado com sucesso!
-              </Typography>
-            )}
-            <Snackbar
-              open={agendamentoSuccess}
-              autoHideDuration={3000}
-              message="Agendamento realizado com sucesso!!!"
-            />
           </form>
+
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            open={errorMessage !== ''}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            message={errorMessage}
+          />
         </Container>
       </Box>
     </>
   );
 };
 
-Agendamento.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+const Dashboard = () => {
+  return (
+    <DashboardLayout>
+      <Agendamento />
+    </DashboardLayout>
+  );
+};
 
-export default Agendamento;
+export default Dashboard;
