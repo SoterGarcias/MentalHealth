@@ -21,9 +21,11 @@ export const DashboardNavbar = (props) => {
   const [avatarPath, setAvatarPath] = useState('');
 
   useEffect(() => {
-    const storedAvatarPath = localStorage.getItem('avatarPath');
-    if (storedAvatarPath && storedAvatarPath !== '') {
-      setAvatarPath(storedAvatarPath);
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      const avatarPath = userData.profileImageUrl || '';
+      setAvatarPath(avatarPath);
     }
   }, []);
 
