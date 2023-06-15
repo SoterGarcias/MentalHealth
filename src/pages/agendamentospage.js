@@ -13,7 +13,7 @@ const PageAgendamento = () => {
   useEffect(() => {
     const fetchAgendamentos = async () => {
       try {
-        const agendamentosRef = collection(db, 'agendamentos');
+        const agendamentosRef = collection(db, 'psicologos');
         const querySnapshot = await getDocs(agendamentosRef);
         const updatedAgendamentos = querySnapshot.docs.map((doc) => ({
           id: doc.id,

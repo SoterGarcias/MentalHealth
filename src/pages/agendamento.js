@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Box, Button, Container, TextField, Typography, Snackbar } from '@mui/material';
 import { useFormik } from 'formik';
-import { collection, addDoc, getDocs, query, where, updateDoc } from 'firebase/firestore/lite';
+import { collection, addDoc, doc, getDocs, query, where, updateDoc, Timestamp, setDoc } from 'firebase/firestore/lite';
 import { db } from '../lib/firebase';
 import Router from 'next/router';
 import { DashboardLayout } from '../components/dashboard-layout';
@@ -27,12 +27,12 @@ const Agendamento = () => {
   useEffect(() => {
     // Pega do localStorage os campos para preencher na coleção
     const userData = JSON.parse(localStorage.getItem('userData'));
-  
+
     setfirstName(userData.firstName || '');
     setPctId(userData.id || '');
     setPsiId(userData.psi_Id || '');
     setpsi_firstName(userData.psi_firstName || '');
-  
+
     // Atualiza os valores do formik com os dados do localStorage
     formik.setValues({
       ...formik.values,
@@ -77,7 +77,7 @@ const Agendamento = () => {
         setErrorMessage('Digite uma descrição válida');
         return;
       }
-      
+
       try {
         const agendamentosRef = collection(db, 'agendamentos');
         const q = query(agendamentosRef, where('diaagendamento', '==', values.diaagendamento));
@@ -102,6 +102,40 @@ const Agendamento = () => {
         }
 
         await addDoc(agendamentosRef, values);
+
+        const psicologosRef = collection(db, 'psicologos');
+        const pctDoc = doc(psicologosRef, values.pct_id);
+        const psiDoc = doc(psicologosRef, values.psi_Id);
+
+        console.log('ID do paciente:', values.pct_id);
+        console.log('ID do psicólogo:', values.psi_Id);
+
+        const agendamentoDateTime = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime.getHours(), selectedTime.getMinutes());
+        const agendamentoTimestamp = Timestamp.fromDate(agendamentoDateTime);
+
+        await setDoc(pctDoc, {
+          consultasAgendadas: {
+              [`consulta${values.diaagendamento}`]:{
+                tipo: agendamentoTimestamp,
+                psicologo:values.psicologo,
+                //data: values.diaagendamento,
+                //hora:values.horaagendamento,
+              }
+            },
+          }, { merge: true });
+
+        await setDoc(psiDoc, {
+          consultasAgendadas: {
+            [`consulta${values.diaagendamento}`]:{
+              tipo: agendamentoTimestamp,
+              paciente:values.paciente,
+              descricao:values.descricao,
+              //data: values.diaagendamento,
+              //hora:values.horaagendamento,
+            }
+          },
+        }, { merge: true });
+
         console.log('Agendamento inserido com sucesso');
         setAgendamentoSuccess(true);
         Router.push('/agendamentospage'); // Redirecionamento para a página de agendamento
