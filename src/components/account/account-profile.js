@@ -53,9 +53,12 @@ const AccountProfile = (props) => {
   };
 
   const handleSaveButtonClick = () => {
-    const userId = user.id; // Substitua "userId" pelo nome da chave do usuário no localStorage
-    handleImageUpload(userId, file); // Chama a função para fazer o upload da imagem para o Firebase
-    setSuccessMessageOpen(true); // Atualiza o estado para exibir a mensagem de sucesso
+    const userId = user.id;
+    handleImageUpload(userId, file).then((imageUrl) => {
+      localStorage.setItem('profileImageUrl', imageUrl); // Adiciona ou modifica o campo user.profileImageUrl no localStorage
+      setSuccessMessageOpen(true);
+      window.location.reload(); // Recarrega a página
+    });
   };
 
   const handleSuccessMessageClose = () => {
@@ -74,7 +77,7 @@ const AccountProfile = (props) => {
           }}
         >
           <Avatar
-            src={user.profileImageUrl}
+            src={file ? URL.createObjectURL(file) : user.profileImageUrl} // Altera o src do Avatar para a imagem carregada ou a imagem de perfil atual
             sx={{
               height: 64,
               mb: 2,

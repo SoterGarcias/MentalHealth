@@ -8,7 +8,8 @@ import {
   Divider,
   Grid,
   TextField,
-  Typography
+  Typography,
+  Snackbar
 } from '@mui/material';
 import { db } from '../../lib/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore/lite';
@@ -24,6 +25,9 @@ export default function ProfileDetails(props) {
     country: '',
     typeUser: ''
   });
+
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
+  const successMessage = 'Informações salvas com sucesso!'; // Mensagem de sucesso
 
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
@@ -48,13 +52,18 @@ export default function ProfileDetails(props) {
 
     setDoc(userRef, dataToSave, { merge: true })
       .then(() => {
-        console.log('Mudanças salvas com sucesso!');
+        localStorage.setItem('userData', JSON.stringify(localStorageData)); // Atualiza as informações no localStorage
+        setSuccessMessageOpen(true); // Exibe a mensagem de sucesso
       })
       .catch((error) => {
         console.error('Erro ao salvar as mudanças:', error);
       });
   };
 
+  const handleCloseSnackbar = () => {
+    setSuccessMessageOpen(false);
+  };
+  
   const customer = { typeUser: localStorageData.typeUser };
 
   return (
@@ -172,6 +181,12 @@ export default function ProfileDetails(props) {
           </Button>
         </Box>
       </Card>
+      <Snackbar
+        open={successMessageOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        message={successMessage}
+      />
     </form>
   );
 };

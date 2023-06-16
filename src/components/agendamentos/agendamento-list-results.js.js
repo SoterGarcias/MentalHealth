@@ -1,8 +1,15 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
+import { format, addDays } from 'date-fns';
 
 export const AgendamentoListResults = ({ agendamentos }) => {
-  const sortedAgendamentos = agendamentos.sort((a, b) => {
+  const localStorageData = localStorage.getItem("userData");
+  const localStorageId = localStorageData ? JSON.parse(localStorageData).id : null;
+  const filteredAgendamentos = agendamentos.filter(
+    (agendamento) => agendamento.pct_id === localStorageId
+  );
+
+  const sortedAgendamentos = filteredAgendamentos.sort((a, b) => {
     // Ordena por dia do agendamento
     if (a.diaagendamento < b.diaagendamento) {
       return -1;
@@ -24,17 +31,25 @@ export const AgendamentoListResults = ({ agendamentos }) => {
     <Table>
       <TableHead>
         <TableRow>
+          <TableCell>Data Consulta</TableCell>
+          <TableCell>Horas</TableCell>
           <TableCell>Psicólogo(a)</TableCell>
-          <TableCell>Agendamento data - hora</TableCell>
+          <TableCell>Obs:</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {sortedAgendamentos.map((agendamento) => (
-          <TableRow key={agendamento.id}>
-            <TableCell>{agendamento.psicologo}</TableCell>
-            <TableCell>{agendamento.dataHora}</TableCell>
-          </TableRow>
-        ))}
+        {sortedAgendamentos.map((agendamento) => {
+          const adjustedDate = addDays(new Date(agendamento.diaagendamento), 1);
+          const formattedDate = format(adjustedDate, 'dd/MM/yyyy');
+          return (
+            <TableRow key={agendamento.id}>
+              <TableCell>{formattedDate}</TableCell>
+              <TableCell>{agendamento.horaagendamento}</TableCell>
+              <TableCell>{agendamento.psicologo}</TableCell>
+              <TableCell>{agendamento.descricao}</TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

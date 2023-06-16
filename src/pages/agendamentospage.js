@@ -4,7 +4,7 @@ import { Box, Container } from '@mui/material';
 import { AgendamentoListResults } from '../components/agendamentos/agendamento-list-results.js';
 import { AgendamentoListToolbar } from '../components/agendamentos/agendamento-list-toolbar.js';
 import { DashboardLayout } from '../components/dashboard-layout.js';
-import { getDocs, collection, query, where } from 'firebase/firestore/lite';
+import { getDocs, collection } from 'firebase/firestore/lite';
 import { db } from '../lib/firebase.js';
 
 const PageAgendamento = () => {
@@ -13,22 +13,13 @@ const PageAgendamento = () => {
   useEffect(() => {
     const fetchAgendamentos = async () => {
       try {
-        const userData = JSON.parse(localStorage.getItem('userData'));
-        const userID = userData ? userData.id : null;
-
-        if (userID) {
-          const agendamentosRef = collection(db, 'psicologos');
-          const q = query(agendamentosRef, where('id', '==', userID));
-          const querySnapshot = await getDocs(q);
-          const updatedAgendamentos = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-
-          console.log('Agendamentos filtrados:', updatedAgendamentos);
-
-          setAgendamentos(updatedAgendamentos);
-        }
+        const agendamentosRef = collection(db, 'agendamentos');
+        const querySnapshot = await getDocs(agendamentosRef);
+        const updatedAgendamentos = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAgendamentos(updatedAgendamentos);
       } catch (error) {
         console.error('Erro ao recuperar os dados:', error);
       }
