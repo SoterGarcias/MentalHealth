@@ -7,6 +7,7 @@ import { db } from '../../lib/firebase';
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
   const [agendamentos, setAgendamentos] = useState([]);
+  const [userData, setUserData] = useState(null); // Adicione o estado para armazenar o userData
 
   useEffect(() => {
     const obterAgendamentos = async () => {
@@ -21,7 +22,17 @@ export const TrafficByDevice = (props) => {
       }
     };
 
+    const obterUserData = () => {
+      // Obtenha o userData do LocalStore
+      const userDataFromLocalStorage = localStorage.getItem('userData');
+      if (userDataFromLocalStorage) {
+        const userDataParsed = JSON.parse(userDataFromLocalStorage);
+        setUserData(userDataParsed);
+      }
+    };
+
     obterAgendamentos();
+    obterUserData();
   }, []);
 
   return (
@@ -30,10 +41,10 @@ export const TrafficByDevice = (props) => {
         <Box sx={{ color: 'white', fontWeight: 'bold' }}>Próxima consulta: </Box>
         <Box sx={{ color: 'white', fontWeight: 'bold' }}>Entrar na consulta</Box>
       </Box>
-      <Box sx={{ my: -2 }}> {/* Mover a abertura da tag para cá */}
+      <Box sx={{ my: -1 }}>
         <CardContent>
           {agendamentos.map((agendamento, index) => {
-            if (index === 0) {
+            if (userData && agendamento.pct_id === userData.id) {
               return (
                 <Box key={agendamento.id} sx={{ my: 1 }}>
                   Psicólogo(a): {agendamento.psicologo} <br />
