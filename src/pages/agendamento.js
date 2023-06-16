@@ -50,7 +50,6 @@ const Agendamento = () => {
       psicologo: psi_firstName,
       diaagendamento: '',
       horaagendamento: time,
-      duracaoagendamento: 1,
       descricao: '',
     },
     onSubmit: async (values) => {
@@ -116,7 +115,7 @@ const Agendamento = () => {
         await setDoc(pctDoc, {
           consultasAgendadas: {
               [`consulta${values.diaagendamento}`]:{
-                tipo: agendamentoTimestamp,
+                dataHora: agendamentoTimestamp,
                 psicologo:values.psicologo,
                 //data: values.diaagendamento,
                 //hora:values.horaagendamento,
@@ -127,7 +126,7 @@ const Agendamento = () => {
         await setDoc(psiDoc, {
           consultasAgendadas: {
             [`consulta${values.diaagendamento}`]:{
-              tipo: agendamentoTimestamp,
+              dataHora: agendamentoTimestamp,
               paciente:values.paciente,
               descricao:values.descricao,
               //data: values.diaagendamento,
@@ -210,7 +209,7 @@ const Agendamento = () => {
               helperText={formik.touched.horaagendamento && formik.errors.horaagendamento}
             />
 
-            <TextField
+            {/* <TextField
               fullWidth
               label="Duração em Horas"
               type="number"
@@ -220,7 +219,7 @@ const Agendamento = () => {
               onChange={formik.handleChange}
               value={formik.values.duracaoagendamento}
               variant="outlined"
-            />
+            /> */}
 
             <TextField
               fullWidth

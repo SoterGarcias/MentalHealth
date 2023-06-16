@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Box, Container, Grid, Pagination } from "@mui/material";
+import { Box, Container, Grid, Pagination, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { ProductListToolbar } from "../components/psicologos/product-list-toolbar";
 import { ProductCard } from "../components/psicologos/product-card";
@@ -14,8 +14,8 @@ const Page = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const productsRef = collection(db, "psicologos"); 
-        const querySnapshot = await getDocs(productsRef); 
+        const productsRef = collection(db, "psicologos");
+        const querySnapshot = await getDocs(productsRef);
         const products = [];
 
         querySnapshot.forEach((doc) => {
@@ -53,9 +53,11 @@ const Page = () => {
             <Grid container spacing={3}>
               {loadedProducts.map((product) =>
                 product.typeUser === "" ? null : (
-                  <Grid item key={product.id} lg={4} md={6} xs={12}>
-                    <Link href={`/psicologos/${product.id}`}>
-                      <ProductCard product={product} />
+                  <Grid item key={product.id} lg={4} md={6} xs={12} sx={{ height: '400px' }}>
+                    <Link href={`/psicologos/${product.id}`} passHref>
+                      <Button component="a" sx={{ textDecoration: 'none' }}>
+                        <ProductCard product={product} />
+                      </Button>
                     </Link>
                   </Grid>
                 )

@@ -58,11 +58,11 @@ const Login = () => {
           sx={{
             display: 'flex',
             height: '100vh',
-            backgroundColor: '#009099',
+            backgroundColor: '#4D5662',
             flex: 1,
           }}
         >
-          <Typography
+          {/* <Typography
             variant="h1"
             sx={{
               color: 'white',
@@ -72,8 +72,8 @@ const Login = () => {
             }}
           >
             Mental <br /> Health
-          </Typography>
-          <img src="/logo.svg" alt="logo" />
+          </Typography> */}
+          <img src="/static/LOGO.png" alt="logo_essa" />
         </Box>
         <Box
           component="main"
@@ -93,7 +93,12 @@ const Login = () => {
           <Container maxWidth="sm">
             <form onSubmit={formik.handleSubmit}>
               <Box sx={{ my: 3 }}>
+              <Typography color="white" variant="h4" style={{ textAlign: "center", fontSize: "2.7rem"  }}>
+                Mental Health
+                <br /><br /><br />
+                </Typography>
                 <Typography color="white" variant="h4">
+                
                   Login
                 </Typography>
               </Box>
@@ -131,6 +136,7 @@ const Login = () => {
                       color="inherit"
                       sx={{
                         textDecoration: 'none',
+                        borderBottom: 'none',
                         color: 'white',
                         display: 'block',
                         textAlign: 'center',

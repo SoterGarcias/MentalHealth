@@ -1,12 +1,14 @@
 import { Box, Button, Card, CardContent, Divider, useTheme } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 
 export const Sales = (props) => {
   const theme = useTheme();
   const [dados, setDados] = React.useState('');
   const [psiUrl, setPsiUrl] = React.useState('');
   const [psiFirstName, setPsiFirstName] = React.useState('');
+  const [psiId, setPsiId] = React.useState('');
 
   useEffect(() => {
     const userDataLocalStorage = localStorage.getItem('userData');
@@ -14,6 +16,7 @@ export const Sales = (props) => {
       const userData = JSON.parse(userDataLocalStorage);
       setPsiUrl(userData.psi_Url);
       setPsiFirstName(userData.psi_firstName);
+      setPsiId(userData.psi_Id);
     }
   }, [localStorage]);
 
@@ -35,7 +38,11 @@ export const Sales = (props) => {
           Seu Psicólogo
         </Box>
         <Box sx={{ color: 'white', fontWeight: 'bold' }}>
-          Ir para o perfil dele(a)
+          <Link href={`/psicologos/${psiId}`} passHref>
+            <Button component="a" style={{ textDecoration: 'none', color: 'white' }}>
+              Ir para o perfil dele(a)
+            </Button>
+          </Link>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', margin: '10px 10px 10px 10px', width: '100%' }}>

@@ -8,10 +8,13 @@ import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
 import { AccountPopover } from './account-popover';
+import Link from 'next/link';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[3]
+  boxShadow: theme.shadows[3],
+  right: 0,
+  left: 'auto'
 }));
 
 export const DashboardNavbar = (props) => {
@@ -37,6 +40,8 @@ export const DashboardNavbar = (props) => {
     <>
       <DashboardNavbarRoot
         sx={{
+          backgroundColor: 'background.paper',
+          boxShadow: 'shadows.3',
           left: {
             lg: 200
           },
@@ -72,9 +77,11 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Contacts">
-            <IconButton sx={{ ml: 1 }}>
-              <UsersIcon fontSize="small" />
-            </IconButton>
+            <Link href="/psicologos" passHref>
+              <IconButton sx={{ ml: 1 }}>
+                <UsersIcon fontSize="small" />
+              </IconButton>
+            </Link>
           </Tooltip>
           <Tooltip title="Notifications">
             <IconButton sx={{ ml: 1 }}>

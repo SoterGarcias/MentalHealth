@@ -23,51 +23,51 @@ const items = [
     icon: <ChartBarIcon fontSize="small" />,
     title: "Dashboard",
   },
-  {
-    href: "/employees",
-    icon: <UsersIcon fontSize="small" />,
-    title: "Funcionários",
-  },
+  // {
+  //   href: "/employees",
+  //   icon: <UsersIcon fontSize="small" />,
+  //   title: "Funcionários",
+  // },
   {
     href: "/psicologos",
     icon: <UsersIcon fontSize="small" />,
     title: "Psicólogos",
   },
-  {
-    href: "/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Conta",
-  },
-  {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
-  },
-  {
-    href: "/login",
-    icon: <LockIcon fontSize="small" />,
-    title: "Login",
-  },
-  {
-    href: "/register",
-    icon: <UserAddIcon fontSize="small" />,
-    title: "Register",
-  },
+  // {
+  //   href: "/account",
+  //   icon: <UserIcon fontSize="small" />,
+  //   title: "Conta",
+  // },
+  // {
+  //   href: "/settings",
+  //   icon: <CogIcon fontSize="small" />,
+  //   title: "Settings",
+  // },
+  // {
+  //   href: "/login",
+  //   icon: <LockIcon fontSize="small" />,
+  //   title: "Login",
+  // },
+  // {
+  //   href: "/register",
+  //   icon: <UserAddIcon fontSize="small" />,
+  //   title: "Register",
+  // },
   {
     href: "/agendamento",
     icon: <UserAddIcon fontSize="small" />,
-    title: "Agendamentos",
+    title: "Agendar",
   },
   {
     href: "/agendamentospage",
     icon: <UserAddIcon fontSize="small" />,
-    title: "Listar Agendamentos",
+    title: "Agendamentos",
   },
-  {
-    href: "/404",
-    icon: <XCircleIcon fontSize="small" />,
-    title: "Error",
-  },
+  // {
+  //   href: "/404",
+  //   icon: <XCircleIcon fontSize="small" />,
+  //   title: "Error",
+  // },
 ];
 
 export const DashboardSidebar = (props) => {

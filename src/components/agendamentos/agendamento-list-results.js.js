@@ -24,21 +24,15 @@ export const AgendamentoListResults = ({ agendamentos }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>Paciente</TableCell>
-          <TableCell>Agendamento dia</TableCell>
-          <TableCell>Horas</TableCell>
-          <TableCell>Dr.</TableCell>
-          <TableCell>Obs:</TableCell>
+          <TableCell>Psicólogo(a)</TableCell>
+          <TableCell>Agendamento data - hora</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {sortedAgendamentos.map((agendamento) => (
           <TableRow key={agendamento.id}>
-            <TableCell>{agendamento.paciente}</TableCell>
-            <TableCell>{agendamento.diaagendamento}</TableCell>
-            <TableCell>{agendamento.horaagendamento}</TableCell>
             <TableCell>{agendamento.psicologo}</TableCell>
-            <TableCell>{agendamento.descricao}</TableCell>
+            <TableCell>{agendamento.dataHora}</TableCell>
           </TableRow>
         ))}
       </TableBody>
