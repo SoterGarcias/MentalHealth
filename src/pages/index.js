@@ -39,9 +39,6 @@ const Page = () => (
           <Grid item xs={12} sm={6} md={6} lg={6}>
             <TrafficByDevice sx={{ height: '100%' }} />
           </Grid>
-          <Grid item xs={12} sm={6} md={6} lg={6}>
-            <LatestOrders />
-          </Grid>
         </Grid>
       </Container>
     </Box>

@@ -26,35 +26,26 @@ export const TrafficByDevice = (props) => {
 
   return (
     <Card {...props} sx={{ width: '456px', height: '140px' }}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '47px',
-          backgroundColor: theme.palette.primary.main,
-          px: 2,
-        }}
-      >
-        <Box sx={{ color: 'white', fontWeight: 'bold' }}>Agendamentos</Box>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '47px', backgroundColor: theme.palette.primary.main, px: 2 }}>
+        <Box sx={{ color: 'white', fontWeight: 'bold' }}>Próxima consulta: </Box>
         <Box sx={{ color: 'white', fontWeight: 'bold' }}>Entrar na consulta</Box>
       </Box>
-      <CardContent>
-        {agendamentos.map((agendamento) => (
-          <Box key={agendamento.id} sx={{ my: 1 }}>
-            <p>Nome: {agendamento.paciente}</p>
-            <p>Data: {agendamento.diaagendamento} Hora: {agendamento.horaagendamento}</p>
-            <Divider />
-          </Box>
-        ))}
-      </CardContent>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2,
-        }}
-      >
+      <Box sx={{ my: -2 }}> {/* Mover a abertura da tag para cá */}
+        <CardContent>
+          {agendamentos.map((agendamento, index) => {
+            if (index === 0) {
+              return (
+                <Box key={agendamento.id} sx={{ my: 1 }}>
+                  Psicólogo(a): {agendamento.psicologo} <br />
+                  Data: {agendamento.diaagendamento} Hora: {agendamento.horaagendamento}
+                </Box>
+              );
+            }
+            return null;
+          })}
+        </CardContent>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
         <Button color="primary" endIcon={<ArrowRightIcon fontSize="small" />} size="small">
           Overview
         </Button>

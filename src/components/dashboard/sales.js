@@ -46,7 +46,7 @@ export const Sales = (props) => {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', margin: '10px 10px 10px 10px', width: '100%' }}>
-        <img src={psiUrl} alt="Imagem do psicólogo" style={{ width: '80px', height: '80px', borderRadius: '50%', marginRight: '10px' }} />
+        <img src={psiUrl} alt="Imagem do psicólogo" style={{ width: '80px', height: '80px', borderRadius: '50%', marginRight: '10px', objectFit: 'cover', }} />
         <span style={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{psiFirstName}</span>
       </Box>
       <CardContent />
