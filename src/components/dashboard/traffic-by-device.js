@@ -3,6 +3,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore/lite';
 import { db } from '../../lib/firebase';
+import { format, addDays } from 'date-fns';
 
 export const TrafficByDevice = (props) => {
   const theme = useTheme();
@@ -16,14 +17,36 @@ export const TrafficByDevice = (props) => {
         const snapshot = await getDocs(agendamentosCollection);
         const agendamentosDoFirestore = snapshot.docs.map((doc) => doc.data());
 
-        setAgendamentos(agendamentosDoFirestore);
+        const localStorageData = localStorage.getItem('userData');
+        const localStorageId = localStorageData ? JSON.parse(localStorageData).id : null;
+
+        const filteredAgendamentos = agendamentosDoFirestore.filter(
+          (agendamento) => agendamento.pct_id === localStorageId
+        );
+
+        const sortedAgendamentos = filteredAgendamentos.sort((a, b) => {
+          if (a.diaagendamento < b.diaagendamento) {
+            return -1;
+          } else if (a.diaagendamento > b.diaagendamento) {
+            return 1;
+          } else {
+            if (a.horaagendamento < b.horaagendamento) {
+              return -1;
+            } else if (a.horaagendamento > b.horaagendamento) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }
+        });
+
+        setAgendamentos(sortedAgendamentos);
       } catch (error) {
         console.log('Erro ao obter agendamentos:', error);
       }
     };
 
     const obterUserData = () => {
-      // Obtenha o userData do LocalStore
       const userDataFromLocalStorage = localStorage.getItem('userData');
       if (userDataFromLocalStorage) {
         const userDataParsed = JSON.parse(userDataFromLocalStorage);
@@ -45,10 +68,13 @@ export const TrafficByDevice = (props) => {
         <CardContent>
           {agendamentos.map((agendamento, index) => {
             if (userData && agendamento.pct_id === userData.id) {
+              const adjustedDate = addDays(new Date(agendamento.diaagendamento), 1);
+              const formattedDate = format(adjustedDate, 'dd/MM/yyyy');
+
               return (
                 <Box key={agendamento.id} sx={{ my: 1 }}>
                   Psicólogo(a): {agendamento.psicologo} <br />
-                  Data: {agendamento.diaagendamento} Hora: {agendamento.horaagendamento}
+                  Data: {formattedDate} Hora: {agendamento.horaagendamento}
                 </Box>
               );
             }
